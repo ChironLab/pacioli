@@ -30,7 +30,7 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Entry {
-  accountId: String
+  accountId: Int
   amount: Float
   id: String
   journalId: String
@@ -48,7 +48,6 @@ scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/fi
 
 type Journal {
   createdAt: DateTime
-  entries: [Entry]!
   id: String!
   journalType: JournalType
   locked: Boolean!
@@ -62,7 +61,7 @@ enum JournalType {
 }
 
 type Mutation {
-  createAccount(accountType: AccountType!, id: Int!, name: String!): Account
+  createAccount(id: Int!, name: String!, type: AccountType!): Account
   deleteAccount(id: Int!): String
   firstTimeSetup: Int!
   postAdjustment(description: String!, entries: [EntryInput!]!, postedOn: DateTime): Adjustment

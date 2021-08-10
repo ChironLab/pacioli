@@ -14,8 +14,7 @@ CREATE TYPE "TransactionType" AS ENUM ('VENDOR_INVOICE', 'CUSTOMER_INVOICE', 'RE
 CREATE TABLE "Account" (
     "id" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
-    "account_type" "AccountType" NOT NULL,
-    "account_group_id" INTEGER,
+    "accountType" "AccountType" NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
 
     PRIMARY KEY ("id")
@@ -24,11 +23,11 @@ CREATE TABLE "Account" (
 -- CreateTable
 CREATE TABLE "Journal" (
     "id" UUID NOT NULL,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "locked" BOOLEAN NOT NULL DEFAULT false,
-    "posted_on" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "journal_type" "JournalType" NOT NULL,
+    "postedOn" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "journalType" "JournalType" NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -36,8 +35,8 @@ CREATE TABLE "Journal" (
 -- CreateTable
 CREATE TABLE "Entry" (
     "id" UUID NOT NULL,
-    "account_id" INTEGER NOT NULL,
-    "journal_id" UUID NOT NULL,
+    "accountId" INTEGER NOT NULL,
+    "journalId" UUID NOT NULL,
     "amount" DOUBLE PRECISION NOT NULL,
 
     PRIMARY KEY ("id")
@@ -47,7 +46,7 @@ CREATE TABLE "Entry" (
 CREATE TABLE "Adjustment" (
     "id" UUID NOT NULL,
     "description" TEXT NOT NULL,
-    "journal_id" UUID NOT NULL,
+    "journalId" UUID NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -69,8 +68,8 @@ CREATE TABLE "Transactor" (
 -- CreateTable
 CREATE TABLE "Transaction" (
     "id" UUID NOT NULL,
-    "transactor_id" UUID NOT NULL,
-    "journal_id" UUID NOT NULL,
+    "transactorId" UUID NOT NULL,
+    "journalId" UUID NOT NULL,
     "transactionType" "TransactionType" NOT NULL,
     "description" TEXT,
     "meta" JSONB,
@@ -79,22 +78,22 @@ CREATE TABLE "Transaction" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Adjustment_journal_id_unique" ON "Adjustment"("journal_id");
+CREATE UNIQUE INDEX "Adjustment_journalId_unique" ON "Adjustment"("journalId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Transaction_journal_id_unique" ON "Transaction"("journal_id");
+CREATE UNIQUE INDEX "Transaction_journalId_unique" ON "Transaction"("journalId");
 
 -- AddForeignKey
-ALTER TABLE "Entry" ADD FOREIGN KEY ("account_id") REFERENCES "Account"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Entry" ADD FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Entry" ADD FOREIGN KEY ("journal_id") REFERENCES "Journal"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Entry" ADD FOREIGN KEY ("journalId") REFERENCES "Journal"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Adjustment" ADD FOREIGN KEY ("journal_id") REFERENCES "Journal"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Adjustment" ADD FOREIGN KEY ("journalId") REFERENCES "Journal"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Transaction" ADD FOREIGN KEY ("transactor_id") REFERENCES "Transactor"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Transaction" ADD FOREIGN KEY ("transactorId") REFERENCES "Transactor"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Transaction" ADD FOREIGN KEY ("journal_id") REFERENCES "Journal"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Transaction" ADD FOREIGN KEY ("journalId") REFERENCES "Journal"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -19,7 +19,7 @@ export const entry = objectType({
   definition: (t) => {
     t.string('id');
     t.string('journalId');
-    t.string('accountId');
+    t.int('accountId');
     t.float('amount');
   },
 });
@@ -33,10 +33,10 @@ export const account = objectType({
     t.nonNull.boolean('active');
     t.list.field('entries', {
       type: entry,
-      resolve:  (root, _args, context) => {
+      resolve: (root, _args, context) => {
         return context.db.entry.findMany({
           where: {
-            account_id: root.id,
+            accountId: root.id,
           },
         });
       },
@@ -57,12 +57,13 @@ export const journal = objectType({
     t.date('createdAt');
     t.date('updatedAt');
     t.date('postedOn');
+    t.field('journalType', { type: journalType });
     t.nonNull.list.field('entries', {
       type: entry,
       resolve: async (root, _args, context) => {
         return context.db.entry.findMany({
           where: {
-            journal_id: root.id,
+            journalId: root.id,
           },
         });
       },
@@ -84,7 +85,7 @@ export const adjustment = objectType({
               id: root.id,
             },
           },
-          rejectOnNotFound: true
+          rejectOnNotFound: true,
         });
       },
     });

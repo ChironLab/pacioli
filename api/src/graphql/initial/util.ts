@@ -3,11 +3,11 @@ import { AccountType } from '@prisma/client';
 const accountFactory = (
   id: number,
   name: string,
-  account_type: AccountType
+  accountType: AccountType
 ) => ({
   id,
   name,
-  account_type,
+  accountType,
 });
 
 export const starterAccounts = [

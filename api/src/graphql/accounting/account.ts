@@ -1,5 +1,5 @@
-import { arg, extendType, stringArg, booleanArg,intArg } from 'nexus';
-import {startOfYear} from 'date-fns'
+import { arg, extendType, stringArg, booleanArg, intArg } from 'nexus';
+import { startOfYear } from 'date-fns';
 import { account, accountType } from './objects';
 import { fields } from '../common';
 
@@ -11,32 +11,25 @@ export const createAccount = extendType({
       args: {
         id: intArg({ required: true }),
         name: stringArg({ required: true }),
-        accountType: arg({ type: accountType, required: true }),
+        type: arg({ type: accountType, required: true }),
       },
-      resolve: async (_, args, context): Promise<any> => {
-        const { id, name, accountType: account_type } = args;
+      resolve: (_, args, context) => {
+        const { id, name, type } = args;
 
-        await context.db.account.upsert({
+        return context.db.account.upsert({
           where: {
             id,
           },
           create: {
             id,
             name,
-            account_type,
+            accountType: type,
           },
           update: {
             name,
-            account_type,
+            accountType: type,
           },
         });
-
-        return {
-          id,
-          name,
-          accountType: account_type,
-          active: true,
-        };
       },
     });
   },
@@ -82,31 +75,31 @@ export const queryAccounts = extendType({
           required: true,
         }),
       },
-      resolve: (_, args, context): Promise<any> => {
+      resolve: (_, args, context) => {
         const { id, startAndEndDate, onlyActive } = args;
         const { startDate, endDate } = startAndEndDate;
 
         const gte = startDate || startOfYear(new Date()).toISOString();
-        const lte = endDate  || new Date().toISOString()
+        const lte = endDate || new Date().toISOString();
 
         return context.db.account.findMany({
           where: {
-            ...id && {id},
-            ...onlyActive && {active: onlyActive},
+            ...(id && { id }),
+            ...(onlyActive && { active: onlyActive }),
             entries: {
               every: {
                 journal: {
-                  posted_on: {
+                  postedOn: {
                     gte,
-                    lte
+                    lte,
                   },
-                }
-              }
-            }
+                },
+              },
+            },
           },
           include: {
-            entries: true
-          }
+            entries: true,
+          },
         });
       },
     });
