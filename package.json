@@ -1,5 +1,6 @@
 {
-  "private": false,
+  "private": true,
+  "license": "MIT",
   "engines": {
     "node": "16.x"
   },
@@ -12,7 +13,11 @@
   "scripts": {
     "build:api": "yarn workspace api build",
     "build:web": "yarn workspace web build",
-    "test": "concurrently --raw --kill-others-on-fail \"yarn test:api\" \"yarn test:web\"",
-    "start": "yarn workspace api start"
+    "build": "yarn build",
+    "dev:api": "yarn workspace api dev",
+    "dev:web": "yarn workspace web start",
+    "dev": "yarn dev:api && yarn dev:web",
+    "start": "yarn workspace api start",
+    "generate": "yarn workspace api generate"
   }
 }

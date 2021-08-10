@@ -1,7 +1,7 @@
 {
-  "name": "pacioli-web",
+  "name": "web",
   "version": "0.0.1",
-  "private": false,
+  "private": true,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

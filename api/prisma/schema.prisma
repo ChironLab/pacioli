@@ -18,109 +18,78 @@ enum AccountType {
   EXPENSE
 }
 
-model ChartOfAccounts {
-  id                Int            @id
-  name              String
-  account_type      AccountType
-  entries           Entries[]
-  account_groups_id Int?
-  accountGroup      AccountGroups? @relation(fields: [account_groups_id], references: [id])
+model Account {
+  id               Int           @id
+  name             String
+  account_type     AccountType
+  entries          Entry[]
+  active           Boolean       @default(true)
 }
 
-model AccountGroups {
-  id           Int               @id
-  name         String
-  account_type AccountType
-  accounts     ChartOfAccounts[]
+enum JournalType {
+  TRANSACTION
+  ADJUSTMENT
 }
 
 model Journal {
-  id              String            @id @default(uuid())
-  updated_at      DateTime          @updatedAt
-  locked          Boolean           @default(false)
-  entries         Entries[]
-  customerInvoice CustomerInvoices?
-  vendorInvoice   VendorInvoices?
-  receipt         Receipts?
-  payment         Payments?
-  adjustment      Adjustments?
+  id          String       @id @default(uuid()) @db.Uuid
+  updated_at  DateTime     @updatedAt
+  created_at  DateTime     @default(now())
+  locked      Boolean      @default(false)
+  posted_on   DateTime     @default(now())
+  journal_type        JournalType
+  entries     Entry[]
+  transaction Transaction?
+  adjustment  Adjustment?
 }
 
-model Entries {
-  id                   String          @id @default(uuid())
-  chart_of_accounts_id Int
-  account              ChartOfAccounts @relation(fields: [chart_of_accounts_id], references: [id])
-  journal_id           String
-  journal              Journal         @relation(fields: [journal_id], references: [id])
-  description          String?
-  amount               Float
-  updated_at           DateTime        @updatedAt
+model Entry {
+  id         String  @id @default(uuid()) @db.Uuid
+  account_id Int
+  account    Account @relation(fields: [account_id], references: [id])
+  journal_id String  @db.Uuid
+  journal    Journal @relation(fields: [journal_id], references: [id])
+  amount     Float
 }
 
-model Adjustments {
-  id          Int     @id @default(autoincrement())
+model Adjustment {
+  id          String  @id @default(uuid()) @db.Uuid
   description String
-  journal_id  String
+  journal_id  String  @db.Uuid
   journal     Journal @relation(fields: [journal_id], references: [id])
 }
 
-model Customers {
-  id               Int                @id @default(autoincrement())
-  name             String
-  address          String?
-  phone            String?
-  customerInvoices CustomerInvoices[]
+enum TransactorType {
+  CUSTOMER
+  VENDOR
 }
 
-model CustomerInvoices {
-  id           Int        @id @default(autoincrement())
-  date         DateTime   @default(now())
-  customers_id Int
-  customer     Customers  @relation(fields: [customers_id], references: [id])
-  journal_id   String
-  journalEntry Journal    @relation(fields: [journal_id], references: [id])
-  paid         Boolean    @default(false)
-  receipts     Receipts[]
+model Transactor {
+  id          String         @id @default(uuid()) @db.Uuid
+  name        String
+  address     String?
+  phone       String?
+  ein         String?
+  active      Boolean        @default(true)
+  type        TransactorType
+  meta        Json?
+  transaction Transaction[]
 }
 
-model Receipts {
-  id                   Int              @id @default(autoincrement())
-  customer_invoices_id Int
-  customerInvoice      CustomerInvoices @relation(fields: [customer_invoices_id], references: [id])
-  journal_id           String
-  journalEntry         Journal          @relation(fields: [journal_id], references: [id])
-  amount               Float
-  date                 DateTime         @default(now())
-  cleared              Boolean          @default(false)
+enum TransactionType {
+  VENDOR_INVOICE
+  CUSTOMER_INVOICE
+  RECEIPT
+  PAYMENT
 }
 
-model Vendors {
-  id             Int              @id @default(autoincrement())
-  name           String
-  address        String?
-  phone          String?
-  ein            String?
-  vendorInvoices VendorInvoices[]
-}
-
-model VendorInvoices {
-  id           Int        @id @default(autoincrement())
-  vendors_id   Int
-  vendor       Vendors    @relation(fields: [vendors_id], references: [id])
-  journal_id   String
-  journalEntry Journal    @relation(fields: [journal_id], references: [id])
-  date         DateTime   @default(now())
-  paid         Boolean    @default(false)
-  payments     Payments[]
-}
-
-model Payments {
-  id                 Int            @id @default(autoincrement())
-  vendor_invoices_id Int
-  vendorInvoice      VendorInvoices @relation(fields: [vendor_invoices_id], references: [id])
-  journal_id         String
-  journalEntry       Journal        @relation(fields: [journal_id], references: [id])
-  amount             Float
-  date               DateTime       @default(now())
-  cleared            Boolean        @default(false)
+model Transaction {
+  id              String          @id @default(uuid()) @db.Uuid
+  transactor_id   String          @db.Uuid
+  transactor      Transactor      @relation(fields: [transactor_id], references: [id])
+  journal_id      String          @db.Uuid
+  journalEntry    Journal         @relation(fields: [journal_id], references: [id])
+  transactionType TransactionType
+  description     String?
+  meta            Json?
 }
