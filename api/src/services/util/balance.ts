@@ -1,12 +1,11 @@
-import type { NexusGenInputs } from 'typegen-nexus';
+type Entry = {
+  amount: number;
+};
 
-export const isEntryBalance = (entries: NexusGenInputs['EntryInput'][]) => {
-  const total = entries.reduce(
-    (acc: number, entry: NexusGenInputs['EntryInput']) => {
-      return acc + entry.amount;
-    },
-    0
-  );
+export const isEntryBalance = (entries: Entry[]) => {
+  const total = entries.reduce((acc: number, entry) => {
+    return acc + entry.amount;
+  }, 0);
 
   return total === 0;
 };

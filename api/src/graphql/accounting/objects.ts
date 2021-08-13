@@ -17,7 +17,7 @@ export const accountType = enumType({
 export const entry = objectType({
   name: ENTRY,
   definition: (t) => {
-    t.string('id');
+    t.id('id');
     t.string('journalId');
     t.int('accountId');
     t.float('amount');
@@ -31,7 +31,7 @@ export const account = objectType({
     t.nonNull.string('name');
     t.nonNull.field('accountType', { type: accountType });
     t.nonNull.boolean('active');
-    t.list.field('entries', {
+    t.nonNull.list.field('entries', {
       type: entry,
       resolve: (root, _args, context) => {
         return context.db.entry.findMany({
@@ -52,7 +52,7 @@ export const journalType = enumType({
 export const journal = objectType({
   name: JOURNAL,
   definition: (t) => {
-    t.nonNull.string('id');
+    t.nonNull.id('id');
     t.nonNull.boolean('locked');
     t.date('createdAt');
     t.date('updatedAt');
@@ -60,7 +60,7 @@ export const journal = objectType({
     t.field('journalType', { type: journalType });
     t.nonNull.list.field('entries', {
       type: entry,
-      resolve: async (root, _args, context) => {
+      resolve: (root, _args, context) => {
         return context.db.entry.findMany({
           where: {
             journalId: root.id,
@@ -68,14 +68,14 @@ export const journal = objectType({
         });
       },
     });
-    t.field('journalType', { type: journalType });
   },
 });
 
 export const adjustment = objectType({
   name: ADJUSTMENT,
   definition: (t) => {
-    t.nonNull.string('id');
+    t.nonNull.id('id');
+    t.string('description');
     t.nonNull.field('journal', {
       type: journal,
       resolve: (root, _args, context) => {
@@ -89,6 +89,5 @@ export const adjustment = objectType({
         });
       },
     });
-    t.string('description');
   },
 });

@@ -1,49 +1,38 @@
 import { arg, extendType } from 'nexus';
-import { JournalType } from '@prisma/client';
-import { adjustment } from './objects';
+import { startOfYear } from 'date-fns';
+import { journal } from './objects';
 import { fields } from '../common';
 
-export const postAdjustment = extendType({
-  type: 'Mutation',
+export const queryJournals = extendType({
+  type: 'Query',
   definition: (t) => {
-    t.field('postAdjustment', {
-      type: adjustment,
+    t.field('getJournals', {
+      type: journal,
+      list: true,
       args: {
-        postedOn: arg({ type: 'DateTime', required: false }),
-        description: arg({ type: 'String', required: true }),
-        entries: arg({ type: fields.ENTRY_INPUT, list: true, required: true }),
+        startAndEndDate: arg({
+          type: fields.START_AND_END_DATE,
+          required: true,
+        }),
       },
-      resolve: async (_, args, context): Promise<any> => {
-        const { description, entries, postedOn } = args;
-        const isBalance = context.services.util.isEntryBalance(entries);
+      resolve: (_, args, context) => {
+        const { startAndEndDate } = args;
+        const { startDate, endDate } = startAndEndDate;
 
-        if (!isBalance) {
-          throw Error('Entry not balanced.');
-        }
+        const gte = startDate || startOfYear(new Date()).toISOString();
+        const lte = endDate || new Date().toISOString();
 
-        const res = await context.db.adjustment.create({
-          data: {
-            description,
-            journal: {
-              create: {
-                ...(postedOn && { posted_on: postedOn }),
-                journalType: JournalType.ADJUSTMENT,
-                entries: {
-                  create: entries,
-                },
-              },
+        return context.db.journal.findMany({
+          where: {
+            postedOn: {
+              gte,
+              lte,
             },
           },
           include: {
-            journal: {
-              include: {
-                entries: true,
-              },
-            },
+            entries: true,
           },
         });
-
-        return res;
       },
     });
   },

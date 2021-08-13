@@ -3,10 +3,10 @@ import { startOfYear } from 'date-fns';
 import { account, accountType } from './objects';
 import { fields } from '../common';
 
-export const createAccount = extendType({
+export const createOrUpdateAccount = extendType({
   type: 'Mutation',
   definition: (t) => {
-    t.field('createAccount', {
+    t.field('createOrUpdateAccount', {
       type: account,
       args: {
         id: intArg({ required: true }),
@@ -64,11 +64,11 @@ export const deleteAccount = extendType({
 export const queryAccounts = extendType({
   type: 'Query',
   definition: (t) => {
-    t.field('getAccounts', {
+    t.field('getAccount', {
       type: account,
       list: true,
       args: {
-        id: intArg(),
+        id: intArg({ required: true }),
         onlyActive: booleanArg({ default: true }),
         startAndEndDate: arg({
           type: fields.START_AND_END_DATE,
@@ -84,7 +84,7 @@ export const queryAccounts = extendType({
 
         return context.db.account.findMany({
           where: {
-            ...(id && { id }),
+            id,
             ...(onlyActive && { active: onlyActive }),
             entries: {
               every: {

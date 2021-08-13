@@ -5,7 +5,7 @@
 type Account {
   accountType: AccountType!
   active: Boolean!
-  entries: [Entry]
+  entries: [Entry]!
   id: Int!
   name: String!
 }
@@ -20,7 +20,7 @@ enum AccountType {
 
 type Adjustment {
   description: String
-  id: String!
+  id: ID!
   journal: Journal!
 }
 
@@ -32,13 +32,19 @@ scalar DateTime
 type Entry {
   accountId: Int
   amount: Float
-  id: String
+  id: ID
   journalId: String
 }
 
-input EntryInput {
+input EntryCreateInput {
   accountId: Int!
   amount: Float!
+}
+
+input EntryUpdateInput {
+  accountId: Int!
+  amount: Float!
+  id: ID
 }
 
 """
@@ -48,7 +54,8 @@ scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/fi
 
 type Journal {
   createdAt: DateTime
-  id: String!
+  entries: [Entry]!
+  id: ID!
   journalType: JournalType
   locked: Boolean!
   postedOn: DateTime
@@ -61,14 +68,14 @@ enum JournalType {
 }
 
 type Mutation {
-  createAccount(id: Int!, name: String!, type: AccountType!): Account
+  createOrUpdateAccount(id: Int!, name: String!, type: AccountType!): Account
   deleteAccount(id: Int!): String
   firstTimeSetup: Int!
-  postAdjustment(description: String!, entries: [EntryInput!]!, postedOn: DateTime): Adjustment
 }
 
 type Query {
-  getAccounts(id: Int, onlyActive: Boolean = true, startAndEndDate: StartAndEndDate!): [Account]
+  getAccount(id: Int!, onlyActive: Boolean = true, startAndEndDate: StartAndEndDate!): [Account]
+  getJournals(startAndEndDate: StartAndEndDate!): [Journal]
 }
 
 input StartAndEndDate {

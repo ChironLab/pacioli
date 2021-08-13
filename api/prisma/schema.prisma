@@ -59,6 +59,11 @@ model Adjustment {
   journal     Journal @relation(fields: [journalId], references: [id])
 }
 
+model RetainedEarnings {
+  closingDate       DateTime  @unique
+  beginningBalance  Float
+}
+
 enum TransactorType {
   CUSTOMER
   VENDOR
@@ -67,9 +72,6 @@ enum TransactorType {
 model Transactor {
   id          String         @id @default(uuid()) @db.Uuid
   name        String
-  address     String?
-  phone       String?
-  ein         String?
   active      Boolean        @default(true)
   type        TransactorType
   meta        Json?
@@ -88,7 +90,7 @@ model Transaction {
   transactorId    String          @db.Uuid
   transactor      Transactor      @relation(fields: [transactorId], references: [id])
   journalId       String          @db.Uuid
-  journalEntry    Journal         @relation(fields: [journalId], references: [id])
+  journal         Journal         @relation(fields: [journalId], references: [id])
   transactionType TransactionType
   description     String?
   meta            Json?

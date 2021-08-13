@@ -52,12 +52,15 @@ CREATE TABLE "Adjustment" (
 );
 
 -- CreateTable
+CREATE TABLE "RetainedEarnings" (
+    "closingDate" TIMESTAMP(3) NOT NULL,
+    "beginningBalance" DOUBLE PRECISION NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "Transactor" (
     "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
-    "address" TEXT,
-    "phone" TEXT,
-    "ein" TEXT,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "type" "TransactorType" NOT NULL,
     "meta" JSONB,
@@ -79,6 +82,9 @@ CREATE TABLE "Transaction" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Adjustment_journalId_unique" ON "Adjustment"("journalId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "RetainedEarnings.closingDate_unique" ON "RetainedEarnings"("closingDate");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Transaction_journalId_unique" ON "Transaction"("journalId");
