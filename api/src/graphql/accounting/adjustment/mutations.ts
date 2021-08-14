@@ -1,7 +1,7 @@
 import { arg, extendType, idArg, stringArg } from 'nexus';
 import { JournalType } from '@prisma/client';
 import { adjustment } from './objects';
-import { schema } from '../common';
+import { schema } from '../../common';
 
 export const createAdjustment = extendType({
   type: 'Mutation',

@@ -1,7 +1,7 @@
 import { arg, extendType } from 'nexus';
 import { startOfYear } from 'date-fns';
 import { journal } from './objects';
-import { fields } from '../common';
+import { fields } from '../../common';
 
 export const queryJournals = extendType({
   type: 'Query',

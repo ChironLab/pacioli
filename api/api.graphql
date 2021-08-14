@@ -2,11 +2,13 @@
 ### Do not make changes to this file directly
 
 
-type Account {
+union Account = AccountWithEntryDetail | AccountWithEntryIds | AccountWithNoEntry
+
+interface AccountInterface {
   accountType: AccountType!
   active: Boolean!
-  entries: [Entry]!
   id: Int!
+  meta: JSON
   name: String!
 }
 
@@ -16,6 +18,32 @@ enum AccountType {
   EXPENSE
   LIABILITY
   REVENUE
+}
+
+type AccountWithEntryDetail implements AccountInterface {
+  accountType: AccountType!
+  active: Boolean!
+  entries(startAndEndDate: StartAndEndDate): [Entry]!
+  id: Int!
+  meta: JSON
+  name: String!
+}
+
+type AccountWithEntryIds implements AccountInterface {
+  accountType: AccountType!
+  active: Boolean!
+  entryIds(startAndEndDate: StartAndEndDate): [ID]!
+  id: Int!
+  meta: JSON
+  name: String!
+}
+
+type AccountWithNoEntry implements AccountInterface {
+  accountType: AccountType!
+  active: Boolean!
+  id: Int!
+  meta: JSON
+  name: String!
 }
 
 type Adjustment {
@@ -30,10 +58,10 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Entry {
-  accountId: Int
-  amount: Float
-  id: ID
-  journalId: String
+  accountId: Int!
+  amount: Float!
+  id: ID!
+  journalId: ID!
 }
 
 input EntryCreateInput {
@@ -52,14 +80,15 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 """
 scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
 
-type Journal {
-  createdAt: DateTime
-  entries: [Entry]!
+union Journal = JournalWithEntries | JournalWithEntryIds | JournalWithNoEntry
+
+interface JournalInterface {
+  createdAt: DateTime!
   id: ID!
-  journalType: JournalType
+  journalType: JournalType!
   locked: Boolean!
-  postedOn: DateTime
-  updatedAt: DateTime
+  postedOn: DateTime!
+  updatedAt: DateTime!
 }
 
 enum JournalType {
@@ -67,14 +96,47 @@ enum JournalType {
   TRANSACTION
 }
 
+type JournalWithEntries implements JournalInterface {
+  createdAt: DateTime!
+  entries: [Entry]!
+  id: ID!
+  journalType: JournalType!
+  locked: Boolean!
+  postedOn: DateTime!
+  updatedAt: DateTime!
+}
+
+type JournalWithEntryIds implements JournalInterface {
+  createdAt: DateTime!
+  entryIds: [ID]!
+  id: ID!
+  journalType: JournalType!
+  locked: Boolean!
+  postedOn: DateTime!
+  updatedAt: DateTime!
+}
+
+type JournalWithNoEntry implements JournalInterface {
+  createdAt: DateTime!
+  id: ID!
+  journalType: JournalType!
+  locked: Boolean!
+  postedOn: DateTime!
+  updatedAt: DateTime!
+}
+
 type Mutation {
+  createAdjustment(description: String!, entries: [EntryCreateInput!]!, postedOn: DateTime): Adjustment
   createOrUpdateAccount(id: Int!, name: String!, type: AccountType!): Account
   deleteAccount(id: Int!): String
+  deleteAdjustment(id: ID!): Adjustment
   firstTimeSetup: Int!
+  updateAdjustment(description: String!, entries: [EntryUpdateInput!]!, id: ID!, postedOn: DateTime): Adjustment
 }
 
 type Query {
-  getAccount(id: Int!, onlyActive: Boolean = true, startAndEndDate: StartAndEndDate!): [Account]
+  getAccount(startAndEndDate: StartAndEndDate): [Account]
+  getAdjustmentById(id: ID!): Adjustment
   getJournals(startAndEndDate: StartAndEndDate!): [Journal]
 }
 

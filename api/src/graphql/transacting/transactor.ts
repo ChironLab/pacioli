@@ -1,21 +1,28 @@
 import { stringArg, extendType, arg, idArg } from 'nexus';
 import { transactor, transactorType } from './objects';
 
-export const createTransactor = extendType({
+export const createOrUpdateTransactor = extendType({
   type: 'Mutation',
   definition: (t) => {
-    t.field('createTransactor', {
+    t.field('createOrUpdateTransactor', {
       type: transactor,
       args: {
+        id: idArg(),
         name: stringArg({ required: true }),
         type: arg({ type: transactorType, required: true }),
         meta: arg({ type: 'Json' }),
       },
       resolve: (_, args, context) => {
-        const { name, type, meta } = args;
+        const { name, type, meta, id } = args;
 
-        return context.db.transactor.create({
-          data: {
+        return context.db.transactor.upsert({
+          where: { id },
+          create: {
+            name,
+            type,
+            ...(meta && { meta }),
+          },
+          update: {
             name,
             type,
             ...(meta && { meta }),
@@ -50,28 +57,19 @@ export const deleteTransactor = extendType({
   },
 });
 
-export const updateTransactor = extendType({
-  type: 'Mutation',
+export const queryTransactors = extendType({
+  type: 'Query',
   definition: (t) => {
-    t.field('updateTransactor', {
+    t.nonNull.field('getTransactors', {
       type: transactor,
-      args: {
-        id: idArg({ required: true }),
-        name: stringArg(),
-        type: arg({ type: transactorType }),
-        meta: arg({ type: 'Json' }),
-      },
-      resolve: (_, args, context) => {
-        const { id, name, type, meta } = args;
-
-        return context.db.transactor.update({
+      list: true,
+      resolve: (_, _args, context) => {
+        return context.db.transactor.findMany({
           where: {
-            id,
+            active: true,
           },
-          data: {
-            ...(name && { name }),
-            ...(type && { type }),
-            ...(type && { meta }),
+          include: {
+            transaction: true,
           },
         });
       },
