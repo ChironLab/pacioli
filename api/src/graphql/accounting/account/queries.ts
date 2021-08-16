@@ -1,5 +1,4 @@
 import { arg, extendType } from 'nexus';
-import { startOfYear } from 'date-fns';
 import { accountWithDetail, accountNoDetail } from './objects';
 import { fields } from '../../common';
 
@@ -16,9 +15,10 @@ export const queryAccountWithEntryIds = extendType({
         }),
       },
       resolve: async (_root, args, context) => {
-
-        const gte = args.startAndEndDate?.startDate || startOfYear(new Date()).toISOString();
-        const lte = args.startAndEndDate?.endDate || new Date().toISOString();
+        const { startDate, endDate } = context.services.util.getStartAndEndDate(
+          args.startAndEndDate?.startDate,
+          args.startAndEndDate?.endDate
+        );
 
         const res = await context.db.account.findMany({
           where: {
@@ -26,23 +26,22 @@ export const queryAccountWithEntryIds = extendType({
               every: {
                 journal: {
                   postedOn: {
-                    gte,
-                    lte,
+                    gte: startDate,
+                    lte: endDate,
                   },
                 },
               },
             },
           },
           include: {
-            entries: true
+            entries: true,
           },
         });
 
-        return res.map(account => {
-          const entryIds = account.entries.map(entry => entry.id)
-          return {...account, entryIds}
-        })
-
+        return res.map((account) => {
+          const entryIds = account.entries.map((entry) => entry.id);
+          return { ...account, entryIds };
+        });
       },
     });
   },
@@ -60,7 +59,7 @@ export const queryAccounts = extendType({
             id: true,
             name: true,
             active: true,
-            accountType: true
+            accountType: true,
           },
         });
       },

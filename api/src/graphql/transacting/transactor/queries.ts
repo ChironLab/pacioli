@@ -1,10 +1,10 @@
-import { stringArg, extendType, arg, idArg } from 'nexus';
-import { transactor, transactorType } from './objects';
+import { extendType } from 'nexus';
+import { transactor } from './objects';
 
-export const queryTransactors = extendType({
+export const getTransactorsWithTransactions = extendType({
   type: 'Query',
   definition: (t) => {
-    t.nonNull.field('getTransactors', {
+    t.nonNull.field('getTransactorsWithTransactions', {
       type: transactor,
       list: true,
       resolve: (_, _args, context) => {

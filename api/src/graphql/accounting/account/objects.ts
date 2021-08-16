@@ -6,7 +6,6 @@ import {
   ACCOUNT_WITH_DETAIL,
   ACCOUNT_NO_DETAIL,
 } from './constants';
-import { accountResolveType } from './util';
 import { fields } from '../../common';
 import { schema } from '../journal';
 
@@ -23,15 +22,22 @@ export const account = interfaceType({
     t.nonNull.field('accountType', { type: accountType });
     t.nonNull.boolean('active');
   },
-  resolveType: accountResolveType,
+  resolveType: (_source: any) => {
+    // if ('entryIds' in source && 'entries' in source) {
+    //   return ACCOUNT_WITH_DETAIL;
+    // }
+    //
+    // return ACCOUNT_NO_DETAIL;
+    return null;
+  },
 });
 
 export const accountNoDetail = objectType({
   name: ACCOUNT_NO_DETAIL,
   definition: (t) => {
-    t.implements(account)
-  }
-})
+    t.implements(account);
+  },
+});
 
 export const accountWithDetail = objectType({
   name: ACCOUNT_WITH_DETAIL,

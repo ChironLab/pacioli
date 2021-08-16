@@ -10,11 +10,9 @@ export const adjustment = objectType({
     t.nonNull.field('journal', {
       type: schema.objects.journal,
       resolve: (root, _args, context) => {
-        return context.db.journal.findFirst({
+        return context.db.journal.findUnique({
           where: {
-            adjustment: {
-              id: root.id,
-            },
+            id: root.id,
           },
           include: {
             entries: true,

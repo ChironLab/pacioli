@@ -1,9 +1,6 @@
 import { objectType, enumType } from 'nexus';
 import { TransactionType } from '@prisma/client';
-import {
-  TRANSACTION_TYPE,
-  TRANSACTION,
-} from './constants';
+import { TRANSACTION_TYPE, TRANSACTION } from './constants';
 import { schema } from '../../accounting';
 
 export const transactionType = enumType({

@@ -1,31 +1,33 @@
-import { queryType, idArg } from 'nexus';
-import {adjustment} from './objects'
+import { extendType, idArg, arg } from 'nexus';
+import { adjustment } from './objects';
+import { fields } from '../../common';
 
-export const getAdjustmentById = queryType({
+export const getAdjustmentById = extendType({
+  type: 'Query',
   definition: (t) => {
     t.field('adjustmentById', {
       type: adjustment,
       args: {
-        id: idArg({required: true})
+        id: idArg({ required: true }),
       },
       resolve: (_root, args, context) => {
-        const {id} = args;
+        const { id } = args;
 
         return context.db.adjustment.findUnique({
           where: {
             id,
-          }
-        })
-      }
-    })
-  }
-})
+          },
+        });
+      },
+    });
+  },
+});
 
-export const queryAdjustments = extendType({
+export const getAdjustments = extendType({
   type: 'Query',
   definition: (t) => {
-    t.field('journalsWithEntries', {
-      type: journalWithEntryIds,
+    t.field('adjustments', {
+      type: adjustment,
       list: true,
       args: {
         startAndEndDate: arg({
@@ -34,14 +36,16 @@ export const queryAdjustments = extendType({
         }),
       },
       resolve: (_, args, context) => {
-        const gte = args.startAndEndDate?.startDate || startOfYear(new Date()).toISOString();
-        const lte = args.startAndEndDate?.endDate || new Date().toISOString();
+        const { startDate, endDate } = context.services.util.getStartAndEndDate(
+          args.startAndEndDate?.startDate,
+          args.startAndEndDate?.endDate
+        );
 
         return context.db.journal.findMany({
           where: {
             postedOn: {
-              gte,
-              lte,
+              gte: startDate,
+              lte: endDate,
             },
           },
         });

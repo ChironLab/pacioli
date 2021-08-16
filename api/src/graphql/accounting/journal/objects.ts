@@ -34,36 +34,38 @@ export const journal = interfaceType({
       resolve: (root, _args, context) => {
         return context.db.journal.findUnique({
           where: {
-            id: root.id
-          }, 
+            id: root.id,
+          },
           select: {
-            createdAt: true
-          }
-        })
-      }
+            createdAt: true,
+          },
+        });
+      },
     });
     t.nonNull.date('updatedAt', {
       resolve: (root, _args, context) => {
         return context.db.journal.findUnique({
           where: {
-            id: root.id
+            id: root.id,
           },
           select: {
-            updatedAt: true
-          }
-        })
-      }
+            updatedAt: true,
+          },
+        });
+      },
     });
-    t.nonNull.date('postedOn', {      resolve: (root, _args, context) => {
-            return context.db.journal.findUnique({
-              where: {
-                id: root.id
-              },
-              select: {
-                postedOn: true
-              }
-            })
-          }});
+    t.nonNull.date('postedOn', {
+      resolve: (root, _args, context) => {
+        return context.db.journal.findUnique({
+          where: {
+            id: root.id,
+          },
+          select: {
+            postedOn: true,
+          },
+        });
+      },
+    });
     t.nonNull.field('journalType', { type: journalType });
   },
   resolveType: journalResolveType,

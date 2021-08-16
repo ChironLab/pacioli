@@ -1,13 +1,12 @@
 import { arg, extendType } from 'nexus';
-import { startOfYear } from 'date-fns';
-import { journalWithEntryIds} from './objects';
+import { journal } from './objects';
 import { fields } from '../../common';
 
 export const queryJournals = extendType({
   type: 'Query',
   definition: (t) => {
-    t.field('journalsWithEntries', {
-      type: journalWithEntryIds,
+    t.field('journals', {
+      type: journal,
       list: true,
       args: {
         startAndEndDate: arg({
@@ -16,14 +15,16 @@ export const queryJournals = extendType({
         }),
       },
       resolve: (_, args, context) => {
-        const gte = args.startAndEndDate?.startDate || startOfYear(new Date()).toISOString();
-        const lte = args.startAndEndDate?.endDate || new Date().toISOString();
+        const { startDate, endDate } = context.services.util.getStartAndEndDate(
+          args.startAndEndDate?.startDate,
+          args.startAndEndDate?.endDate
+        );
 
         return context.db.journal.findMany({
           where: {
             postedOn: {
-              gte,
-              lte,
+              gte: startDate,
+              lte: endDate,
             },
           },
         });
