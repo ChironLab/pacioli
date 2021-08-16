@@ -1,3 +1,3 @@
-import Apollo from "./Apollo";
+import Apollo from './Apollo';
 
 export default Apollo;

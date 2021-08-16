@@ -1,7 +1,7 @@
-import React from "react";
-import "./App.css";
-import ApolloProvider from "../Apollo";
-import Router from "../Router";
+import React from 'react';
+import './App.css';
+import ApolloProvider from '../Apollo';
+import Router from '../Router';
 
 const App = () => {
   return (

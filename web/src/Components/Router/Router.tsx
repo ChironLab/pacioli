@@ -1,7 +1,7 @@
-import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 
-import { Pages } from "../../Pages";
+import { Pages } from '../../Pages';
 
 const Router = () => {
   const routes = Pages.map((page) => (

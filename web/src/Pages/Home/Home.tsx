@@ -1,10 +1,10 @@
-import Card from "../../Components/Card";
+import Card from '../../Components/Card';
 
 const cards = [
   {
-    name: "journal entries",
-    type: "Accounting",
-    description: "Enter journal entries",
+    name: 'journal entries',
+    type: 'Accounting',
+    description: 'Enter journal entries',
   },
 ];
 
