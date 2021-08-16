@@ -1,26 +1,23 @@
 import { arg, extendType } from 'nexus';
 import { startOfYear } from 'date-fns';
-import { journal } from './objects';
+import { journalWithEntryIds} from './objects';
 import { fields } from '../../common';
 
 export const queryJournals = extendType({
   type: 'Query',
   definition: (t) => {
-    t.field('getJournals', {
-      type: journal,
+    t.field('journalsWithEntries', {
+      type: journalWithEntryIds,
       list: true,
       args: {
         startAndEndDate: arg({
           type: fields.START_AND_END_DATE,
-          required: true,
+          required: false,
         }),
       },
       resolve: (_, args, context) => {
-        const { startAndEndDate } = args;
-        const { startDate, endDate } = startAndEndDate;
-
-        const gte = startDate || startOfYear(new Date()).toISOString();
-        const lte = endDate || new Date().toISOString();
+        const gte = args.startAndEndDate?.startDate || startOfYear(new Date()).toISOString();
+        const lte = args.startAndEndDate?.endDate || new Date().toISOString();
 
         return context.db.journal.findMany({
           where: {
@@ -28,9 +25,6 @@ export const queryJournals = extendType({
               gte,
               lte,
             },
-          },
-          include: {
-            entries: true,
           },
         });
       },

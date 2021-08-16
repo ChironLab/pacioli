@@ -75,7 +75,7 @@ model Transactor {
   active      Boolean        @default(true)
   type        TransactorType
   meta        Json?
-  transaction Transaction[]
+  transactions Transaction[]
 }
 
 enum TransactionType {

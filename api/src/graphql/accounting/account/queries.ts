@@ -1,13 +1,13 @@
 import { arg, extendType } from 'nexus';
 import { startOfYear } from 'date-fns';
-import { account } from './objects';
+import { accountWithDetail, accountNoDetail } from './objects';
 import { fields } from '../../common';
 
-export const queryAccounts = extendType({
+export const queryAccountWithEntryIds = extendType({
   type: 'Query',
   definition: (t) => {
-    t.field('getAccounts', {
-      type: account,
+    t.field('accountsWithEntryIds', {
+      type: accountWithDetail,
       list: true,
       args: {
         startAndEndDate: arg({
@@ -34,11 +34,35 @@ export const queryAccounts = extendType({
             },
           },
           include: {
-            entries: true,
+            entries: true
           },
         });
 
-        return res
+        return res.map(account => {
+          const entryIds = account.entries.map(entry => entry.id)
+          return {...account, entryIds}
+        })
+
+      },
+    });
+  },
+});
+
+export const queryAccounts = extendType({
+  type: 'Query',
+  definition: (t) => {
+    t.field('accountsWithNoDetail', {
+      type: accountNoDetail,
+      list: true,
+      resolve: (_root, _args, context) => {
+        return context.db.account.findMany({
+          select: {
+            id: true,
+            name: true,
+            active: true,
+            accountType: true
+          },
+        });
       },
     });
   },

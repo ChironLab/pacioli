@@ -1,7 +1,7 @@
 import { arg, extendType, idArg, stringArg } from 'nexus';
 import { JournalType } from '@prisma/client';
 import { transaction, transactionType } from './objects';
-import { fields } from '../common';
+import { fields } from '../../common';
 
 export const createTransaction = extendType({
   type: 'Mutation',

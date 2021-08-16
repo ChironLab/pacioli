@@ -1,12 +1,10 @@
-import { objectType, enumType, arg, interfaceType, unionType } from 'nexus';
+import { objectType, enumType, arg, interfaceType } from 'nexus';
 import { AccountType } from '@prisma/client';
 import {
   ACCOUNT_TYPE,
   ACCOUNT,
-  ACCOUNT_WITH_ENTRY_IDS,
-  ACCOUNT_WITH_ENTRY_DETAIL,
-  ACCOUNT_WITH_NO_ENTRY,
-  ACCOUNT_INTERFACE,
+  ACCOUNT_WITH_DETAIL,
+  ACCOUNT_NO_DETAIL,
 } from './constants';
 import { accountResolveType } from './util';
 import { fields } from '../../common';
@@ -17,29 +15,58 @@ export const accountType = enumType({
   members: AccountType,
 });
 
-export const accountInterface = interfaceType({
-  name: ACCOUNT_INTERFACE,
+export const account = interfaceType({
+  name: ACCOUNT,
   definition: (t) => {
     t.nonNull.int('id');
     t.nonNull.string('name');
     t.nonNull.field('accountType', { type: accountType });
     t.nonNull.boolean('active');
-    t.json('meta');
   },
   resolveType: accountResolveType,
 });
 
-export const accountWithNoEntry = objectType({
-  name: ACCOUNT_WITH_NO_ENTRY,
+export const accountNoDetail = objectType({
+  name: ACCOUNT_NO_DETAIL,
   definition: (t) => {
-    t.implements(accountInterface);
-  },
-});
+    t.implements(account)
+  }
+})
 
-export const accountWithEntryIds = objectType({
-  name: ACCOUNT_WITH_ENTRY_IDS,
+export const accountWithDetail = objectType({
+  name: ACCOUNT_WITH_DETAIL,
   definition: (t) => {
-    t.implements(accountInterface);
+    t.implements(account);
+    t.nonNull.list.field('entries', {
+      type: schema.objects.entry,
+      args: {
+        startAndEndDate: arg({
+          type: fields.START_AND_END_DATE,
+          required: false,
+        }),
+      },
+      resolve: async (root, args, context) => {
+        const { startAndEndDate } = args;
+
+        const { startDate, endDate } = context.services.util.getStartAndEndDate(
+          startAndEndDate?.startDate,
+          startAndEndDate?.endDate
+        );
+
+        return context.db.entry.findMany({
+          where: {
+            accountId: root.id,
+            journal: {
+              postedOn: {
+                gte: startDate,
+                lte: endDate,
+              },
+            },
+          },
+        });
+      },
+    });
+
     t.nonNull.list.id('entryIds', {
       args: {
         startAndEndDate: arg({
@@ -74,48 +101,4 @@ export const accountWithEntryIds = objectType({
       },
     });
   },
-});
-
-export const accountWithEntries = objectType({
-  name: ACCOUNT_WITH_ENTRY_DETAIL,
-  definition: (t) => {
-    t.implements(accountInterface);
-    t.nonNull.list.field('entries', {
-      type: schema.objects.entry,
-      args: {
-        startAndEndDate: arg({
-          type: fields.START_AND_END_DATE,
-          required: false,
-        }),
-      },
-      resolve: async (root, args, context) => {
-        const { startAndEndDate } = args;
-
-        const { startDate, endDate } = context.services.util.getStartAndEndDate(
-          startAndEndDate?.startDate,
-          startAndEndDate?.endDate
-        );
-
-        return context.db.entry.findMany({
-          where: {
-            accountId: root.id,
-            journal: {
-              postedOn: {
-                gte: startDate,
-                lte: endDate,
-              },
-            },
-          },
-        });
-      },
-    });
-  },
-});
-
-export const account = unionType({
-  name: ACCOUNT,
-  definition: (t) => {
-    t.members(accountWithNoEntry, accountWithEntryIds, accountWithEntries);
-  },
-  resolveType: accountResolveType,
 });

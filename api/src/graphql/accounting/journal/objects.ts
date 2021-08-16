@@ -1,10 +1,9 @@
-import { objectType, enumType, interfaceType, unionType } from 'nexus';
+import { objectType, enumType, interfaceType } from 'nexus';
 import { JournalType } from '@prisma/client';
 import {
   JOURNAL_WITH_ENTRIES,
   JOURNAL_WITH_NO_ENTRY,
   JOURNAL_WITH_ENTRY_IDS,
-  JOURNAL_INTERFACE,
   JOURNAL_TYPE,
   JOURNAL,
   ENTRY,
@@ -26,14 +25,45 @@ export const journalType = enumType({
   members: JournalType,
 });
 
-export const journalInterface = interfaceType({
-  name: JOURNAL_INTERFACE,
+export const journal = interfaceType({
+  name: JOURNAL,
   definition: (t) => {
     t.nonNull.id('id');
     t.nonNull.boolean('locked');
-    t.nonNull.date('createdAt');
-    t.nonNull.date('updatedAt');
-    t.nonNull.date('postedOn');
+    t.nonNull.date('createdAt', {
+      resolve: (root, _args, context) => {
+        return context.db.journal.findUnique({
+          where: {
+            id: root.id
+          }, 
+          select: {
+            createdAt: true
+          }
+        })
+      }
+    });
+    t.nonNull.date('updatedAt', {
+      resolve: (root, _args, context) => {
+        return context.db.journal.findUnique({
+          where: {
+            id: root.id
+          },
+          select: {
+            updatedAt: true
+          }
+        })
+      }
+    });
+    t.nonNull.date('postedOn', {      resolve: (root, _args, context) => {
+            return context.db.journal.findUnique({
+              where: {
+                id: root.id
+              },
+              select: {
+                postedOn: true
+              }
+            })
+          }});
     t.nonNull.field('journalType', { type: journalType });
   },
   resolveType: journalResolveType,
@@ -42,7 +72,7 @@ export const journalInterface = interfaceType({
 export const journalWithEntries = objectType({
   name: JOURNAL_WITH_ENTRIES,
   definition: (t) => {
-    t.implements(journalInterface);
+    t.implements(journal);
     t.nonNull.list.field('entries', {
       type: entry,
       resolve: (root, _args, context) => {
@@ -59,7 +89,7 @@ export const journalWithEntries = objectType({
 export const journalWithEntryIds = objectType({
   name: JOURNAL_WITH_ENTRY_IDS,
   definition: (t) => {
-    t.implements(journalInterface);
+    t.implements(journal);
     t.nonNull.list.id('entryIds', {
       resolve: async (root, _args, context) => {
         const res = await context.db.entry.findMany({
@@ -80,14 +110,6 @@ export const journalWithEntryIds = objectType({
 export const journalWithNoEntry = objectType({
   name: JOURNAL_WITH_NO_ENTRY,
   definition: (t) => {
-    t.implements(journalInterface);
+    t.implements(journal);
   },
-});
-
-export const journal = unionType({
-  name: JOURNAL,
-  definition: (t) => {
-    t.members(journalWithEntries, journalWithNoEntry, journalWithEntryIds);
-  },
-  resolveType: journalResolveType,
 });

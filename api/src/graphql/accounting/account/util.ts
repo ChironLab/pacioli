@@ -1,17 +1,12 @@
 import {
-  ACCOUNT_WITH_ENTRY_IDS,
-  ACCOUNT_WITH_ENTRY_DETAIL,
-  ACCOUNT_WITH_NO_ENTRY,
+  ACCOUNT_WITH_DETAIL,
+  ACCOUNT_NO_DETAIL,
 } from './constants';
 
 export const accountResolveType = (source: any) => {
-  if ('entryIds' in source) {
-    return ACCOUNT_WITH_ENTRY_IDS;
+  if ('entryIds' in source && 'entries' in source) {
+    return ACCOUNT_WITH_DETAIL;
   }
 
-  if ('entries' in source) {
-    return ACCOUNT_WITH_ENTRY_DETAIL;
-  }
-
-  return ACCOUNT_WITH_NO_ENTRY;
+  return ACCOUNT_NO_DETAIL;
 };
