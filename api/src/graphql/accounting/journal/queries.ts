@@ -5,9 +5,8 @@ import { fields } from '../../common';
 export const queryJournals = extendType({
   type: 'Query',
   definition: (t) => {
-    t.field('journals', {
+    t.list.field('journals', {
       type: journal,
-      list: true,
       args: {
         startAndEndDate: arg({
           type: fields.START_AND_END_DATE,

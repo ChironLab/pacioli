@@ -14,12 +14,11 @@ export const schema = makeSchema({
   types: [dateTimeScalar, jsonScalar, types],
   shouldGenerateArtifacts: process.env.NODE_ENV !== 'production',
   plugins: [
-    //  This is necessary because we are using {required: true} in the legacy code
     //  New convention is t.nonNull
     declarativeWrappingPlugin(),
   ],
   outputs: {
-    schema: path.join(__dirname, '../../api.graphql'),
+    schema: path.join(__dirname, '../../schema.gen.graphql'),
     typegen: path.join(
       __dirname,
       '../../node_modules/@types/typegen-nexus/index.d.ts'

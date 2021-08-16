@@ -30,42 +30,9 @@ export const journal = interfaceType({
   definition: (t) => {
     t.nonNull.id('id');
     t.nonNull.boolean('locked');
-    t.nonNull.date('createdAt', {
-      resolve: (root, _args, context) => {
-        return context.db.journal.findUnique({
-          where: {
-            id: root.id,
-          },
-          select: {
-            createdAt: true,
-          },
-        });
-      },
-    });
-    t.nonNull.date('updatedAt', {
-      resolve: (root, _args, context) => {
-        return context.db.journal.findUnique({
-          where: {
-            id: root.id,
-          },
-          select: {
-            updatedAt: true,
-          },
-        });
-      },
-    });
-    t.nonNull.date('postedOn', {
-      resolve: (root, _args, context) => {
-        return context.db.journal.findUnique({
-          where: {
-            id: root.id,
-          },
-          select: {
-            postedOn: true,
-          },
-        });
-      },
-    });
+    t.nonNull.date('createdAt');
+    t.nonNull.date('updatedAt');
+    t.nonNull.date('postedOn');
     t.nonNull.field('journalType', { type: journalType });
   },
   resolveType: journalResolveType,

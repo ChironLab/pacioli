@@ -13,7 +13,7 @@ export const getTransactorsWithTransactions = extendType({
             active: true,
           },
           include: {
-            transaction: true,
+            transactions: true,
           },
         });
       },

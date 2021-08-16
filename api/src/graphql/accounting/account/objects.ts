@@ -22,13 +22,12 @@ export const account = interfaceType({
     t.nonNull.field('accountType', { type: accountType });
     t.nonNull.boolean('active');
   },
-  resolveType: (_source: any) => {
-    // if ('entryIds' in source && 'entries' in source) {
-    //   return ACCOUNT_WITH_DETAIL;
-    // }
-    //
-    // return ACCOUNT_NO_DETAIL;
-    return null;
+  resolveType: (source: any) => {
+    if ('entryIds' in source && 'entries' in source) {
+      return ACCOUNT_WITH_DETAIL;
+    }
+
+    return ACCOUNT_NO_DETAIL;
   },
 });
 
@@ -48,7 +47,6 @@ export const accountWithDetail = objectType({
       args: {
         startAndEndDate: arg({
           type: fields.START_AND_END_DATE,
-          required: false,
         }),
       },
       resolve: async (root, args, context) => {
@@ -77,7 +75,6 @@ export const accountWithDetail = objectType({
       args: {
         startAndEndDate: arg({
           type: fields.START_AND_END_DATE,
-          required: false,
         }),
       },
       resolve: async (root, args, context) => {

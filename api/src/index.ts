@@ -12,7 +12,7 @@ const bootstrap = async () => {
     config.logger.info(app.printRoutes());
   });
 
-  await app.listen(3000);
+  await app.listen(config.env.port);
 };
 
 bootstrap();

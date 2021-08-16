@@ -13,11 +13,14 @@
   "scripts": {
     "build:api": "yarn workspace api build",
     "build:web": "yarn workspace web build",
-    "build": "yarn build",
+    "build": "concurrently \"yarn:build:*\" -k",
     "dev:api": "yarn workspace api dev",
     "dev:web": "yarn workspace web start",
-    "dev": "yarn dev:api && yarn dev:web",
+    "dev": "concurrently \"yarn:dev:*\" -k",
     "start": "yarn workspace api start",
     "generate": "yarn workspace api generate"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.1"
   }
 }

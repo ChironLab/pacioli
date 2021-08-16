@@ -5,13 +5,11 @@ import { fields } from '../../common';
 export const queryAccountWithEntryIds = extendType({
   type: 'Query',
   definition: (t) => {
-    t.field('accountsWithEntryIds', {
+    t.list.field('accountsWithDetail', {
       type: accountWithDetail,
-      list: true,
       args: {
         startAndEndDate: arg({
           type: fields.START_AND_END_DATE,
-          required: false,
         }),
       },
       resolve: async (_root, args, context) => {
@@ -38,8 +36,8 @@ export const queryAccountWithEntryIds = extendType({
           },
         });
 
-        return res.map((account) => {
-          const entryIds = account.entries.map((entry) => entry.id);
+        return res.map((account: any) => {
+          const entryIds = account.entries.map((entry: any) => entry.id);
           return { ...account, entryIds };
         });
       },
@@ -50,9 +48,8 @@ export const queryAccountWithEntryIds = extendType({
 export const queryAccounts = extendType({
   type: 'Query',
   definition: (t) => {
-    t.field('accountsWithNoDetail', {
+    t.list.field('accountsWithNoDetail', {
       type: accountNoDetail,
-      list: true,
       resolve: (_root, _args, context) => {
         return context.db.account.findMany({
           select: {

@@ -131,7 +131,7 @@ type Mutation {
 }
 
 type Query {
-  accountsWithEntryIds(startAndEndDate: StartAndEndDate): [AccountWithDetail]
+  accountsWithDetail(startAndEndDate: StartAndEndDate): [AccountWithDetail]
   accountsWithNoDetail: [AccountWithNoDetail]
   adjustmentById(id: ID!): Adjustment
   adjustments(startAndEndDate: StartAndEndDate): [Adjustment]

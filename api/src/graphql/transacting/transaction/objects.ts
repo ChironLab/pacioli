@@ -16,11 +16,9 @@ export const transaction = objectType({
     t.nonNull.field('journal', {
       type: schema.journal.objects.journal,
       resolve: (root, _args, context) => {
-        return context.db.journal.findFirst({
+        return context.db.journal.findUnique({
           where: {
-            transaction: {
-              id: root.id,
-            },
+            id: root.id,
           },
           rejectOnNotFound: true,
         });
