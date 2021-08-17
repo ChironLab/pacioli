@@ -4,11 +4,11 @@
   "description": "backend",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "yarn generate",
     "build": "tsc",
-    "start": "dist/src/index.js",
-    "dev": "NODE_ENV=development ts-node-dev src/index",
-    "generate": "NODE_ENV=not_production prisma generate && ts-node ./src/loaders/schema.ts"
+    "start": "node dist/src/index.js",
+    "dev": "NODE_ENV=development ts-node-dev -r dotenv/config src/index",
+    "generate": "NODE_ENV=not_production prisma generate && ts-node -T ./src/loaders/schema.ts",
+    "migrate": "prisma migrate"
   },
   "private": true,
   "devDependencies": {

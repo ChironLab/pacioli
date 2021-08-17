@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { initConfig } from './config';
 import { initLoaders } from './loaders';
 import { initServices } from './services';
