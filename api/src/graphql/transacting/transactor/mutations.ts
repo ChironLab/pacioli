@@ -10,7 +10,7 @@ export const createOrUpdateTransactor = extendType({
         id: idArg(),
         name: stringArg({ required: true }),
         type: arg({ type: transactorType, required: true }),
-        meta: arg({ type: 'Json' }),
+        meta: arg({ type: 'JSON' }),
       },
       resolve: (_, args, context) => {
         const { name, type, meta, id } = args;

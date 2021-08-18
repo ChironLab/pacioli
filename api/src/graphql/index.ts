@@ -46,7 +46,7 @@ export const schema = makeSchema({
   //  Allows nexus to know the type of context parameter in resolver
   ...(process.env.NODE_ENV !== 'production' && {
     contextType: {
-      module: path.join(__dirname, './context.ts'),
+      module: path.join(__dirname, '../loaders/context.ts'),
       export: 'Context',
     },
   }),
