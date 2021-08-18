@@ -9,9 +9,9 @@ export const fastifyLoader = (config: Config, apollo: ApolloServer) => {
     logger: config.logger,
   });
 
-  app.register(apollo.createHandler({ path: '/graphql', cors: false }));
   app.register(cors);
   app.register(helmet, { contentSecurityPolicy: false });
+  app.register(apollo.createHandler({ path: '/graphql', cors: false }));
 
   return app;
 };

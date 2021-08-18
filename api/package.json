@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "node dist/src/index.js",
     "dev": "NODE_ENV=development ts-node-dev -r dotenv/config src/index",
-    "generate": "NODE_ENV=not_production prisma generate && ts-node -T ./src/loaders/schema.ts",
+    "generate": "NODE_ENV=not_production prisma generate && ts-node -T ./src/graphql/index.ts",
     "migrate": "prisma migrate"
   },
   "private": true,
@@ -32,6 +32,7 @@
     "fastify": "^3.19.2",
     "fastify-cors": "^6.0.2",
     "fastify-helmet": "^5.3.2",
+    "fastify-static": "^4.2.3",
     "graphql": "^15.5.1",
     "graphql-middleware": "^6.0.10",
     "graphql-scalars": "^1.10.0",

@@ -1,3 +1,5 @@
-import * as schema from './graphql';
+import * as mutations from './mutations';
+
+const schema = { mutations };
 
 export { schema };
