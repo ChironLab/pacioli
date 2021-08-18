@@ -20,6 +20,9 @@ export const transaction = objectType({
           where: {
             id: root.id,
           },
+          include: {
+            entries: true
+          },
           rejectOnNotFound: true,
         });
       },

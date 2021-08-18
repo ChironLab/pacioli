@@ -73,7 +73,7 @@ CREATE TABLE "Transaction" (
     "id" UUID NOT NULL,
     "transactorId" UUID NOT NULL,
     "journalId" UUID NOT NULL,
-    "transactionType" "TransactionType" NOT NULL,
+    "type" "TransactionType" NOT NULL,
     "description" TEXT,
     "meta" JSONB,
 

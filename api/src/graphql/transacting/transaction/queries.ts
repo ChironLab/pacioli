@@ -23,6 +23,7 @@ export const getTransactionById = extendType({
               },
             },
           },
+          rejectOnNotFound: true
         });
       },
     });

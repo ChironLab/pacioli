@@ -91,7 +91,7 @@ model Transaction {
   transactor      Transactor      @relation(fields: [transactorId], references: [id])
   journalId       String          @db.Uuid
   journal         Journal         @relation(fields: [journalId], references: [id])
-  transactionType TransactionType
+  type            TransactionType
   description     String?
   meta            Json?
 }
