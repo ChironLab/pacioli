@@ -19,7 +19,7 @@ export const account = interfaceType({
   definition: (t) => {
     t.nonNull.int('id');
     t.nonNull.string('name');
-    t.nonNull.field('accountType', { type: accountType });
+    t.nonNull.field('type', { type: accountType });
     t.nonNull.boolean('active');
   },
   resolveType: (source: any) => {

@@ -21,11 +21,11 @@ export const createOrUpdateAccount = extendType({
           create: {
             id,
             name,
-            accountType: type,
+            type,
           },
           update: {
             name,
-            accountType: type,
+            type,
           },
         });
       },

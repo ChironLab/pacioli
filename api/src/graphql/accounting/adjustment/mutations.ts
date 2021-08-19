@@ -31,7 +31,7 @@ export const createAdjustment = extendType({
             journal: {
               create: {
                 ...(postedOn && { posted_on: postedOn }),
-                journalType: JournalType.ADJUSTMENT,
+                type: JournalType.ADJUSTMENT,
                 entries: {
                   create: entries,
                 },

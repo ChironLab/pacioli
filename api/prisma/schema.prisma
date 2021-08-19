@@ -21,7 +21,7 @@ enum AccountType {
 model Account {
   id          Int         @id
   name        String
-  accountType AccountType
+  type        AccountType
   entries     Entry[]
   active      Boolean     @default(true)
 }
@@ -37,7 +37,7 @@ model Journal {
   createdAt   DateTime     @default(now())
   locked      Boolean      @default(false)
   postedOn    DateTime     @default(now())
-  journalType JournalType
+  type        JournalType
   entries     Entry[]
   transaction Transaction?
   adjustment  Adjustment?

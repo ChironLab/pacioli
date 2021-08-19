@@ -33,7 +33,7 @@ export const journal = interfaceType({
     t.nonNull.date('createdAt');
     t.nonNull.date('updatedAt');
     t.nonNull.date('postedOn');
-    t.nonNull.field('journalType', { type: journalType });
+    t.nonNull.field('type', { type: journalType });
   },
   resolveType: journalResolveType,
 });

@@ -38,7 +38,7 @@ export const createTransaction = extendType({
             },
             journal: {
               create: {
-                journalType: JournalType.TRANSACTION,
+                type: JournalType.TRANSACTION,
                 ...(postedOn && { postedOn }),
               },
             },

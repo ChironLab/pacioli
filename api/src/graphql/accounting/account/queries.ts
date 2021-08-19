@@ -56,7 +56,7 @@ export const queryAccounts = extendType({
             id: true,
             name: true,
             active: true,
-            accountType: true,
+            type: true,
           },
         });
       },
