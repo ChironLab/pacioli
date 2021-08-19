@@ -8,7 +8,7 @@
     "build": "tsc",
     "start": "node dist/src/index.js",
     "dev": "NODE_ENV=development ts-node-dev -r -T dotenv/config src/index",
-    "generate": "NODE_ENV=not_production prisma generate && ts-node -T ./src/graphql/index.ts",
+    "generate": "SHOULD_SCHEMA_GEN=true prisma generate && ts-node -T ./src/graphql/index.ts",
     "migrate": "prisma migrate"
   },
   "private": true,

@@ -22,7 +22,9 @@ export const schema = makeSchema({
     commonSchema,
     initialSchema,
   ],
-  shouldGenerateArtifacts: process.env.NODE_ENV !== 'production',
+  shouldGenerateArtifacts:
+    process.env.SHOULD_SCHEMA_GEN === 'true' ||
+    process.env.NODE_ENV === 'development',
   plugins: [
     //  New convention is t.nonNull
     declarativeWrappingPlugin(),
@@ -44,7 +46,8 @@ export const schema = makeSchema({
     ],
   },
   //  Allows nexus to know the type of context parameter in resolver
-  ...(process.env.NODE_ENV !== 'production' && {
+  ...((process.env.SHOULD_SCHEMA_GEN === 'true' ||
+    process.env.NODE_ENV === 'development') && {
     contextType: {
       module: path.join(__dirname, '../loaders/context.ts'),
       export: 'Context',

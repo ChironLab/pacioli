@@ -21,7 +21,7 @@ export const transaction = objectType({
             id: root.id,
           },
           include: {
-            entries: true
+            entries: true,
           },
           rejectOnNotFound: true,
         });

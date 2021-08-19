@@ -17,16 +17,10 @@ export const createTransaction = extendType({
           required: true,
         }),
         transactorId: idArg({ required: true }),
-        transactionType: arg({ type: transactionType, required: true }),
+        type: arg({ type: transactionType, required: true }),
       },
       resolve: (_, args, context) => {
-        const {
-          description,
-          entries,
-          postedOn,
-          transactorId,
-          transactionType,
-        } = args;
+        const { description, entries, postedOn, transactorId, type } = args;
         const isBalance = context.services.util.isEntryBalance(entries);
 
         if (!isBalance) {
@@ -36,7 +30,7 @@ export const createTransaction = extendType({
         return context.db.transaction.create({
           data: {
             description,
-            transactionType,
+            type,
             transactor: {
               connect: {
                 id: transactorId,
@@ -113,17 +107,10 @@ export const updateTransaction = extendType({
           required: true,
         }),
         transactorId: idArg({ required: true }),
-        transactionType: arg({ type: transactionType, required: true }),
+        type: arg({ type: transactionType, required: true }),
       },
       resolve: async (_, args, context) => {
-        const {
-          id,
-          description,
-          entries,
-          postedOn,
-          transactorId,
-          transactionType,
-        } = args;
+        const { id, description, entries, postedOn, transactorId, type } = args;
         const isBalance = context.services.util.isEntryBalance(entries);
 
         if (!isBalance) {
@@ -179,7 +166,7 @@ export const updateTransaction = extendType({
           },
           data: {
             description,
-            transactionType,
+            type,
             transactor: {
               connect: {
                 id: transactorId,

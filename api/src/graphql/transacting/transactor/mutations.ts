@@ -15,7 +15,7 @@ export const createOrUpdateTransactor = extendType({
       resolve: (_, args, context) => {
         const { name, type, meta, id: maybeId } = args;
 
-        const id = maybeId ? maybeId : undefined
+        const id = maybeId ? maybeId : undefined;
 
         return context.db.transactor.upsert({
           where: { id },
