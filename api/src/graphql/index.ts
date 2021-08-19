@@ -49,7 +49,7 @@ export const schema = makeSchema({
   ...((process.env.SHOULD_SCHEMA_GEN === 'true' ||
     process.env.NODE_ENV === 'development') && {
     contextType: {
-      module: path.join(__dirname, '../loaders/context.ts'),
+      module: path.join(__dirname, '../loaders/types.ts'),
       export: 'Context',
     },
   }),

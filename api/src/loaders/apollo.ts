@@ -1,7 +1,7 @@
 import { ApolloServer } from 'apollo-server-fastify';
 import { applyMiddleware } from 'graphql-middleware';
 import type { GraphQLSchema } from '../graphql';
-import type { Context } from './context';
+import type { Context } from './types';
 import type { Config } from '../config';
 import type { Services } from '../services';
 
