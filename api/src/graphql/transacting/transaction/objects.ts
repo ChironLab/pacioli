@@ -15,8 +15,8 @@ export const transaction = objectType({
     t.nonNull.field('type', { type: transactionType });
     t.nonNull.field('journal', {
       type: schema.journal.objects.journal,
-      resolve: (root, _args, context) => {
-        return context.db.journal.findUnique({
+      resolve: (root, _args, context) =>
+        context.db.journal.findUnique({
           where: {
             id: root.id,
           },
@@ -24,8 +24,7 @@ export const transaction = objectType({
             entries: true,
           },
           rejectOnNotFound: true,
-        });
-      },
+        }),
     });
     t.string('description');
     t.json('meta');

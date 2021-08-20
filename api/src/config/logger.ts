@@ -10,7 +10,7 @@ export const initLogger = (_: string) => {
 
   //  Create a logger instance
   const logger = pino({
-    prettyPrint: prettyPrint,
+    prettyPrint,
   });
 
   return logger;

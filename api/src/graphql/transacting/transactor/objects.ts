@@ -44,13 +44,12 @@ export const transactorWithDetail = objectType({
     t.nonNull.field('transactions', {
       type: schema.objects.transaction,
       list: true,
-      resolve: (root, _args, context) => {
-        return context.db.transaction.findMany({
+      resolve: (root, _args, context) =>
+        context.db.transaction.findMany({
           where: {
             transactorId: root.id,
           },
-        });
-      },
+        }),
     });
   },
 });

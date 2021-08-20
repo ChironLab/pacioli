@@ -9,8 +9,8 @@ export const adjustment = objectType({
     t.string('description');
     t.nonNull.field('journal', {
       type: schema.objects.journal,
-      resolve: (root, _args, context) => {
-        return context.db.journal.findUnique({
+      resolve: (root, _args, context) =>
+        context.db.journal.findUnique({
           where: {
             id: root.id,
           },
@@ -18,8 +18,7 @@ export const adjustment = objectType({
             entries: true,
           },
           rejectOnNotFound: true,
-        });
-      },
+        }),
     });
   },
 });

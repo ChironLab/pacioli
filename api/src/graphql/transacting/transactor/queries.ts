@@ -7,16 +7,15 @@ export const getTransactorsWithTransactions = extendType({
     t.nonNull.field('getTransactorsWithTransactions', {
       type: transactor,
       list: true,
-      resolve: (_, _args, context) => {
-        return context.db.transactor.findMany({
+      resolve: (_, _args, context) =>
+        context.db.transactor.findMany({
           where: {
             active: true,
           },
           include: {
             transactions: true,
           },
-        });
-      },
+        }),
     });
   },
 });

@@ -44,13 +44,12 @@ export const journalWithEntries = objectType({
     t.implements(journal);
     t.nonNull.list.field('entries', {
       type: entry,
-      resolve: (root, _args, context) => {
-        return context.db.entry.findMany({
+      resolve: (root, _args, context) =>
+        context.db.entry.findMany({
           where: {
             journalId: root.id,
           },
-        });
-      },
+        }),
     });
   },
 });
@@ -70,7 +69,7 @@ export const journalWithEntryIds = objectType({
           },
         });
 
-        return res.map((entry) => entry.id);
+        return res.map((entryWithId) => entryWithId.id);
       },
     });
   },

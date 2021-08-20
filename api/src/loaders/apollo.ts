@@ -19,13 +19,11 @@ export const apolloLoader = async (
     schema,
     introspection: environment !== 'production',
     logger,
-    context: async (): Promise<Context> => {
-      return {
-        db: config.prisma,
-        env,
-        services,
-      };
-    },
+    context: (): Context => ({
+      db: config.prisma,
+      env,
+      services,
+    }),
   });
 
   await apollo.start();

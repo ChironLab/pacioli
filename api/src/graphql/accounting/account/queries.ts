@@ -50,16 +50,15 @@ export const queryAccounts = extendType({
   definition: (t) => {
     t.list.field('accountsWithNoDetail', {
       type: accountNoDetail,
-      resolve: (_root, _args, context) => {
-        return context.db.account.findMany({
+      resolve: (_root, _args, context) =>
+        context.db.account.findMany({
           select: {
             id: true,
             name: true,
             active: true,
             type: true,
           },
-        });
-      },
+        }),
     });
   },
 });
