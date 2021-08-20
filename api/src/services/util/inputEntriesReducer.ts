@@ -6,7 +6,7 @@ type CreateOrUpdate<T> = {
   create: T;
   update: T;
   where: {
-    id: string | undefined | null;
+    id: string | undefined;
   };
 };
 
@@ -14,27 +14,39 @@ type IdMap = {
   [key: string]: number;
 };
 
-type Entry = {
-  id?: string | null | undefined;
+interface EntryWithNoId {
   amount: number;
   accountId: number;
-};
+}
+
+interface EntryWithId extends EntryWithNoId {
+  id: string;
+}
 
 type Accumulator = {
-  createOrUpdateEntries: CreateOrUpdate<Entry>[];
+  createOrUpdateEntries: CreateOrUpdate<EntryWithNoId>[];
   ids: IdMap;
 };
 
-export const inputEntriesReducer = (acc: Accumulator, entry: Entry) => {
-  const { id, ...rest } = entry;
+export const inputEntriesReducer = (
+  acc: Accumulator,
+  entry: EntryWithId | EntryWithNoId
+) => {
+  let temp: EntryWithNoId;
+  let id: string | undefined;
 
-  if (id) {
-    acc.ids[id] = 1;
+  if ('id' in entry) {
+    const { id: entryId, ...rest } = entry;
+    acc.ids[entryId] = 1;
+    temp = rest;
+    id = entryId;
+  } else {
+    temp = entry;
   }
 
   acc.createOrUpdateEntries.push({
-    create: rest,
-    update: rest,
+    create: temp,
+    update: temp,
     where: {
       id,
     },

@@ -14,7 +14,7 @@ CREATE TYPE "TransactionType" AS ENUM ('VENDOR_INVOICE', 'CUSTOMER_INVOICE', 'RE
 CREATE TABLE "Account" (
     "id" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
-    "accountType" "AccountType" NOT NULL,
+    "type" "AccountType" NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
 
     PRIMARY KEY ("id")
@@ -27,7 +27,7 @@ CREATE TABLE "Journal" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "locked" BOOLEAN NOT NULL DEFAULT false,
     "postedOn" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "journalType" "JournalType" NOT NULL,
+    "type" "JournalType" NOT NULL,
 
     PRIMARY KEY ("id")
 );

@@ -127,8 +127,16 @@ type Mutation {
     type: TransactorType!
   ): Transactor
   createSpecialAccounts: Int!
+  createTransaction(
+    description: String!
+    entries: [EntryCreateInput!]!
+    postedOn: DateTime
+    transactorId: ID!
+    type: TransactionType!
+  ): Transaction
   deleteAccount(id: Int!): String
   deleteAdjustment(id: ID!): Adjustment
+  deleteTransaction(id: ID!): Transaction
   deleteTransactor(id: ID!): Transactor
   updateAdjustment(
     description: String!
@@ -136,6 +144,14 @@ type Mutation {
     id: ID!
     postedOn: DateTime
   ): Adjustment
+  updateTransaction(
+    description: String!
+    entries: [EntryUpdateInput!]!
+    id: ID!
+    postedOn: DateTime
+    transactorId: ID!
+    type: TransactionType!
+  ): Transaction
 }
 
 type Query {

@@ -1,4 +1,5 @@
 import faker from 'faker';
+import 'dotenv/config';
 import { TransactorType } from '@prisma/client';
 import { initServices } from '../services';
 import { initConfig } from '../config';
@@ -8,10 +9,10 @@ const entryCreateFactory = (accountId: number, amount: number) => ({
   amount,
 });
 
-export const seed = async () => {
-  const config = initConfig();
-  const services = initServices(config);
+const config = initConfig();
+const services = initServices(config);
 
+export const seed = async () => {
   const { prisma, logger } = config;
 
   logger.info('Creating special accounts.');
@@ -112,4 +113,6 @@ export const seed = async () => {
   ]);
 };
 
-seed();
+seed().finally(() => {
+  config.prisma.$disconnect();
+});

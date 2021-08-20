@@ -9,7 +9,7 @@
     "start": "node dist/src/index.js",
     "dev": "NODE_ENV=development ts-node-dev -r dotenv/config ./src/index.ts",
     "generate": "SHOULD_SCHEMA_GEN=true prisma generate && ts-node -T ./src/graphql/index.ts",
-    "migrate": "prisma migrate",
+    "migrate": "prisma migrate deploy",
     "lint": "eslint src/ --ext .ts",
     "format": "prettier . --write",
     "seed": "ts-node -T ./src/scripts/seed.ts"

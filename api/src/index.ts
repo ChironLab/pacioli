@@ -14,7 +14,7 @@ const bootstrap = async () => {
     config.logger.info(app.printRoutes());
   });
 
-  await app.listen(config.env.port);
+  await app.listen(config.env.port || 4000);
 };
 
 bootstrap();

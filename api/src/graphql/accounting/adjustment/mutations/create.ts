@@ -1,4 +1,4 @@
-import { arg, extendType, idArg, stringArg } from 'nexus';
+import { arg, extendType } from 'nexus';
 import { JournalType } from '@prisma/client';
 import { adjustment } from '../objects';
 import { schema } from '../../../common';
