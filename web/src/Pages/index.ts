@@ -1,3 +1,15 @@
+import type { Page as PageComponent } from './types';
+import { Root } from './Root';
 import { Home } from './Home';
+import { Vendor } from './Vendor';
+import { Customer } from './Customer';
+import { Accountant } from './Accountant';
 
-export const Pages = [Home];
+export type Page = PageComponent;
+export const Pages: PageComponent[] = [
+  Root,
+  Home,
+  Vendor,
+  Customer,
+  Accountant,
+];

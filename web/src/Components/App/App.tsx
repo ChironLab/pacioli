@@ -1,12 +1,15 @@
 import React from 'react';
 import './App.css';
-import ApolloProvider from '../Apollo';
-import Router from '../Router';
+import { ApolloProvider } from '../../Context/Apollo';
+import { UiProvider } from '../../Context/UiContext';
+import MainContainer from './MainContainer';
 
 const App = () => {
   return (
     <ApolloProvider>
-      <Router />
+      <UiProvider>
+        <MainContainer />
+      </UiProvider>
     </ApolloProvider>
   );
 };

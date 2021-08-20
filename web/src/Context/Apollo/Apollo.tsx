@@ -7,7 +7,7 @@ const client = new ApolloClient({
 });
 
 type Props = {
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
 };
 
 const Apollo = ({ children }: Props) => {
