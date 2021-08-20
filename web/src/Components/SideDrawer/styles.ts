@@ -7,6 +7,7 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
+    ...theme.mixins.toolbar,
   },
   menuButton: {
     marginRight: 36,
@@ -36,5 +37,9 @@ export const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9) + 1,
     },
+  },
+  link: {
+    textDecoration: 'none',
+    color: 'inherit'
   },
 }));

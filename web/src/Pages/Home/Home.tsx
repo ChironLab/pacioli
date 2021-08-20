@@ -10,7 +10,9 @@ const cards = [
 ];
 
 const Home = () => {
-  const display = cards.map((cardDetail) => <Card {...cardDetail} />);
+  const display = cards.map((cardDetail) => (
+    <Card {...cardDetail} key={`HOME_CARD_${cardDetail.name}`} />
+  ));
 
   return <div>{display}</div>;
 };

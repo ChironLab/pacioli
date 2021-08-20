@@ -4,7 +4,7 @@ import type { Page, PageMeta } from '../types';
 
 const route = {
   path: '/home',
-  exact: false,
+  exact: true,
   component: HomeComponent,
 };
 

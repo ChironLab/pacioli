@@ -8,7 +8,7 @@ import { useTheme } from '@material-ui/core/styles';
 import { Drawer, List, Divider, IconButton } from '@material-ui/core';
 import { useStyles } from './styles';
 import type { Page } from '../../Pages';
-import ListComponent from './ListComponent';
+import LinkItem from './LinkItem';
 
 type Props = {
   toggleDrawer: () => null | void | undefined;
@@ -29,12 +29,16 @@ const SideDrawer = ({ toggleDrawer, isDrawerOpen, pages }: Props) => {
     (acc: NavAccumulator, page) => {
       switch (page.meta.navPosition) {
         case 'top': {
-          acc.topNav.push(<ListComponent page={page} />);
+          acc.topNav.push(
+            <LinkItem page={page} key={`TopNav_${page.meta.name}`} />
+          );
           return acc;
         }
 
         case 'bottom': {
-          acc.topNav.push(<ListComponent page={page} />);
+          acc.bottomNav.push(
+            <LinkItem page={page} key={`BottomNav_${page.meta.name}`} />
+          );
           return acc;
         }
 
