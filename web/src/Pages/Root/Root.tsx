@@ -1,8 +1,13 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Root = () => {
-  return <Redirect to='/home' />;
+  return (
+    <main>
+      <header> Welcome to Pacioli </header>
+      <Link to='/home'> TAKE ME HOME </Link>
+    </main>
+  );
 };
 
 export default Root;

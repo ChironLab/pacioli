@@ -2,7 +2,7 @@ import React from 'react';
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { ReportProblemRounded } from '@material-ui/icons';
-import type { Page } from '../../Pages';
+import type { Page } from '../../types';
 import { useStyles } from './styles';
 
 type Props = {

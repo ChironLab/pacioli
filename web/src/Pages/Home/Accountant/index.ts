@@ -1,9 +1,10 @@
 import AccountantComponent from './Accountant';
 import { BallotRounded } from '@material-ui/icons';
 import type { Page, PageMeta } from '../types';
+import { HOME_PATH } from '../constants';
 
 const route = {
-  path: '/home/accountant',
+  path: `${HOME_PATH}/accountant`,
   exact: true,
   component: AccountantComponent,
 };

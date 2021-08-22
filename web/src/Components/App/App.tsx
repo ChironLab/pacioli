@@ -4,14 +4,12 @@ import './App.css';
 import { ApolloProvider } from '../../Context/Apollo';
 import { UiProvider } from '../../Context/UiContext';
 import Router from './Router';
-import { useStyles } from './styles';
 
 const App = () => {
-  const classes = useStyles();
   return (
     <ApolloProvider>
       <UiProvider>
-        <main className={classes.root}>
+        <main className='root'>
           <CssBaseline />
           <Router />
         </main>

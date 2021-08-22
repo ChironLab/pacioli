@@ -1,9 +1,10 @@
 import CustomerComponent from './Customer';
 import { MonetizationOnRounded } from '@material-ui/icons';
 import type { Page, PageMeta } from '../types';
+import { HOME_PATH } from '../constants';
 
 const route = {
-  path: '/home/customer',
+  path: `${HOME_PATH}/customer`,
   exact: true,
   component: CustomerComponent,
 };

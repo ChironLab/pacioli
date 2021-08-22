@@ -9,7 +9,6 @@ const route = {
 
 const meta: PageMeta = {
   name: 'Root',
-  navPosition: 'none',
 };
 
 export const Root: Page = {

@@ -1,9 +1,10 @@
 import VendorComponent from './Vendor';
 import { ReceiptRounded } from '@material-ui/icons';
 import type { Page, PageMeta } from '../types';
+import { HOME_PATH } from '../constants';
 
 const route = {
-  path: '/home/vendor',
+  path: `${HOME_PATH}/vendor`,
   exact: true,
   component: VendorComponent,
 };
