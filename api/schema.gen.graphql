@@ -130,9 +130,10 @@ type Query {
   accountsWithNoDetail: [AccountWithNoDetail]
   adjustmentById(id: ID!): Adjustment
   adjustments(startAndEndDate: StartAndEndDate): [Adjustment]
+  entries(startAndEndDate: StartAndEndDate): [Entry]
   getTransactionById(id: ID!): Transaction
-  getTransactorsWithTransactions: [Transactor]!
   journals(startAndEndDate: StartAndEndDate): [Journal]
+  transactorsWithTransactions: [Transactor]!
 }
 
 input StartAndEndDate {

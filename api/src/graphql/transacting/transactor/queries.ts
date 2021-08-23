@@ -4,7 +4,7 @@ import { transactor } from './objects';
 export const getTransactorsWithTransactions = extendType({
   type: 'Query',
   definition: (t) => {
-    t.nonNull.field('getTransactorsWithTransactions', {
+    t.nonNull.field('transactorsWithTransactions', {
       type: transactor,
       list: true,
       resolve: (_, _args, context) =>

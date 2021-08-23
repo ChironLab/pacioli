@@ -1,7 +1,18 @@
 import React from 'react';
 
-const Dashboard = () => {
-  return <div>Dashboard</div>;
+type Props = {
+  data: any
+}
+
+const Dashboard = ({data}: Props) => {
+
+  console.log(data)
+
+
+
+    return <div>
+
+      </div>
 };
 
 export default Dashboard;

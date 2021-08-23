@@ -14,7 +14,12 @@ export type PageRoute = {
   exact?: boolean;
 };
 
+type Props = {
+  data: any
+}
+
 export type Page = {
   route: PageRoute & RouteProps;
+  Component: (props: Props) => JSX.Element
   meta: PageMeta;
 };

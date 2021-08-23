@@ -6,7 +6,6 @@ import { HOME_PATH } from '../constants';
 const route = {
   path: `${HOME_PATH}/customer`,
   exact: true,
-  component: CustomerComponent,
 };
 
 const meta: PageMeta = {
@@ -18,4 +17,5 @@ const meta: PageMeta = {
 export const Customer: Page = {
   route,
   meta,
+  Component: CustomerComponent,
 };
