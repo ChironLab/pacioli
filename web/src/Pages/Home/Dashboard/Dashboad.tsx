@@ -1,17 +1,14 @@
 import React from 'react';
 
-type Props = {
-  data: any
-}
 
-const Dashboard = ({data}: Props) => {
+const Dashboard = () => {
+  
 
-  console.log(data)
 
 
 
     return <div>
-
+    'YAYAY'
       </div>
 };
 

@@ -13,6 +13,8 @@ export const transaction = objectType({
   definition: (t) => {
     t.nonNull.id('id');
     t.nonNull.field('type', { type: transactionType });
+    t.string('description');
+    t.json('meta');
     t.nonNull.field('journal', {
       type: schema.journal.objects.journal,
       resolve: (root, _args, context) =>
@@ -20,13 +22,8 @@ export const transaction = objectType({
           where: {
             id: root.id,
           },
-          include: {
-            entries: true,
-          },
           rejectOnNotFound: true,
         }),
     });
-    t.string('description');
-    t.json('meta');
   },
 });

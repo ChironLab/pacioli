@@ -2,18 +2,42 @@ import { gql } from '@apollo/client';
 
 export const BOOTSTRAP = gql`
   query Bootstrap($startAndEndDate: StartAndEndDate!) {
-    accountsWithDetail(startAndEndDate: $startAndEndDate) {
+    accounts(startAndEndDate: $startAndEndDate) {
       id
       name
-      entryIds
+      entries {
+        id
+        amount
+        accountId
+        journalId
+      }
       type
       active
+      entryIds @client
+      value @client
     }
-    entries(startAndEndDate: $startAndEndDate) {
+    transactors {
       id
-      accountId
-      amount
-      journalId
+      name
+      type
+      transactions (startAndEndDate: $startAndEndDate) {
+        id
+        description
+        meta
+        type
+        journal {
+          id
+          createdAt
+          postedOn
+          type
+          entries {
+            id
+            amount
+            accountId
+            journalId
+          }
+        }
+      }
     }
   }
 `;

@@ -4,8 +4,9 @@ import { schema } from '../journal';
 
 export const adjustment = objectType({
   name: ADJUSTMENT,
+  description: 'Adjustments are manually posted to affect the trial balance.',
   definition: (t) => {
-    t.nonNull.id('id');
+    t.nonNull.id('id', {description: 'Auto generated adjustment id using uuid.'});
     t.string('description');
     t.nonNull.field('journal', {
       type: schema.objects.journal,
@@ -13,9 +14,6 @@ export const adjustment = objectType({
         context.db.journal.findUnique({
           where: {
             id: root.id,
-          },
-          include: {
-            entries: true,
           },
           rejectOnNotFound: true,
         }),

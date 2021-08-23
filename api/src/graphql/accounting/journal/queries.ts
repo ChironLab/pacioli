@@ -55,12 +55,11 @@ export const queryEntries = extendType({
               postedOn: {
                 gte: startDate,
                 lte: endDate,
-              }
-            }
+              },
+            },
           },
         });
       },
-
-    })
-  }
-})
+    });
+  },
+});

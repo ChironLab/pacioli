@@ -33,6 +33,8 @@ const Home = () => {
     }
   })
 
+  console.log('**** dataaa', data)
+
   if(loading) {
     return <CircularProgress />
   }
@@ -57,7 +59,7 @@ const Home = () => {
         {pages.map((page) => {
           const {route, meta, Component} = page
           return <Route {...route} key={`Route_${meta.name}`}>
-            <Component data={data}/>
+            <Component />
           </Route>
         })}
       </section>

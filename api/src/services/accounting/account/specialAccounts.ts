@@ -1,7 +1,5 @@
 import { AccountType } from '@prisma/client';
 
-
-
 const accountFactory = (id: number, name: string, type: AccountType) => ({
   id,
   name,
@@ -9,9 +7,9 @@ const accountFactory = (id: number, name: string, type: AccountType) => ({
 });
 
 export type AccountMap = {
-  accountIds: number[]
-  [id: number]: ReturnType<typeof accountFactory>
-}
+  accountIds: number[];
+  [id: number]: ReturnType<typeof accountFactory>;
+};
 
 export const initSpecialAccounts = () => {
   const specialAccounts = [
@@ -27,16 +25,19 @@ export const initSpecialAccounts = () => {
     accountFactory(8001, 'Expense', AccountType.EXPENSE),
   ];
 
-  const accountMap = specialAccounts.reduce((acc: AccountMap, account) => {
-    acc.accountIds.push(account.id)
-    acc[account.id] = account
-    return acc
-  }, {accountIds: []})
+  const accountMap = specialAccounts.reduce(
+    (acc: AccountMap, account) => {
+      acc.accountIds.push(account.id);
+      acc[account.id] = account;
+      return acc;
+    },
+    { accountIds: [] }
+  );
 
   return {
     getSpecialAccountsDetails: () => specialAccounts,
     getSpecialAccountIds: () => accountMap.accountIds,
-    isSpecialAccount: (id: number) => accountMap[id] ? true : false,
-    getSpecialAccountMap: () => accountMap
+    isSpecialAccount: (id: number) => (accountMap[id] ? true : false),
+    getSpecialAccountMap: () => accountMap,
   };
 };
