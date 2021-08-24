@@ -1,16 +1,7 @@
-import {
-  ThemeProvider,
-  Theme,
-  StyledEngineProvider,
-  createTheme,
-} from '@material-ui/core/styles';
-
-declare module '@material-ui/styles/defaultTheme' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
-
-const theme = createTheme();
+import { ThemeProvider, StyledEngineProvider } from '@material-ui/core/styles';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
+import { theme } from './theme';
 
 type Props = {
   children: JSX.Element | JSX.Element[];
@@ -18,9 +9,11 @@ type Props = {
 
 const ThemeWrapper = ({ children }: Props) => {
   return (
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
-    </StyledEngineProvider>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      </StyledEngineProvider>
+    </LocalizationProvider>
   );
 };
 

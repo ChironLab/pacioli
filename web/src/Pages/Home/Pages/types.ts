@@ -14,13 +14,8 @@ export type PageRoute = {
   exact?: boolean;
 };
 
-export type Props = {
-  isModalOpen: boolean;
-  toggleModal: () => void;
-};
-
 export type Page = {
   route: PageRoute & RouteProps;
-  Component: (props: Props) => JSX.Element;
+  Component: () => JSX.Element;
   meta: PageMeta;
 };

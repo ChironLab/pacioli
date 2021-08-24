@@ -2,35 +2,41 @@ import React from 'react';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { Redirect } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from '@material-ui/core';
 import { getTrialBalance, GraphQLTypes } from '../../API';
 import { startDateVar, endDateVar } from '../../../../Context/Apollo';
 import Dialog from '../../Components/Dialog';
-import { displayAccountingValue } from '../utilites';
-import { useStyles } from './styles';
-import type { Props } from '../types';
+import Table from './AccountingTable';
 
-const Dashboard = ({ isModalOpen, toggleModal }: Props) => {
+const initialModalContent = {
+  title: 'Accounting',
+  headers: ['id', 'amount'],
+  rows: [
+    {
+      value: 0,
+      id: 'abc',
+    },
+  ],
+};
+
+const headers = ['Account Number', 'Account Name', 'Account Value'];
+
+const Dashboard = () => {
   const startDate = useReactiveVar(startDateVar);
   const endDate = useReactiveVar(endDateVar);
-  const classes = useStyles();
+  const [isModalOpen, toggleModal] = React.useState(false);
+  const [modalContent, setModalContent] = React.useState(initialModalContent);
 
-  const { loading, error, data } = useQuery<GraphQLTypes['GetTrialBalance']>(getTrialBalance, {
-    variables: {
-      startAndEndDate: {
-        startDate,
-        endDate,
+  const { loading, error, data } = useQuery<GraphQLTypes['GetTrialBalance']>(
+    getTrialBalance,
+    {
+      variables: {
+        startAndEndDate: {
+          startDate,
+          endDate,
+        },
       },
-    },
-  });
+    }
+  );
 
   if (data && !data.accounts.length) {
     return <Redirect to='/setup' />;
@@ -48,35 +54,39 @@ const Dashboard = ({ isModalOpen, toggleModal }: Props) => {
 
   return (
     <>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label='simple table'>
-          <TableHead>
-            <TableRow>
-              <TableCell>Account Number</TableCell>
-              <TableCell>Account Name</TableCell>
-              <TableCell>Account Value</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.accounts.map((account: any) => (
-              <TableRow
-                key={`chartOfAccount_${account.id}`}
-                onClick={toggleModal}
-              >
-                <TableCell component='th' scope='row'>
-                  {account.id}
-                </TableCell>
-                <TableCell>{account.name}</TableCell>
-                <TableCell>
-                  {displayAccountingValue(account.value, true)}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Dialog isModalOpen={isModalOpen} toggleModal={toggleModal} title={'ababab'}>
-        <div> YAYAYAYA </div>
+      <Table
+        headers={headers}
+        rows={data.accounts.map((account) => {
+          const { value, id, name, entries } = account;
+          const rows = entries.map((entry) => {
+            const { amount: value, id } = entry;
+            return {
+              value,
+              id,
+            };
+          });
+
+          return {
+            id,
+            name,
+            value,
+            onClick: () => {
+              toggleModal((prev) => !prev);
+              setModalContent((prev) => ({
+                title: `${id} ${name}`,
+                headers: prev.headers,
+                rows,
+              }));
+            },
+          };
+        })}
+      />
+      <Dialog
+        isModalOpen={isModalOpen}
+        toggleModal={() => toggleModal((prevState) => !prevState)}
+        title={modalContent.title}
+      >
+        <Table headers={modalContent.headers} rows={modalContent.rows} />
       </Dialog>
     </>
   );

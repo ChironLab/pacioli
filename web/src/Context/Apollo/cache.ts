@@ -6,15 +6,15 @@ export const cache = new InMemoryCache({
       fields: {
         postedOn: {
           read: (postedOn, _options) => {
-            return new Date(postedOn)
-          }
+            return new Date(postedOn);
+          },
         },
         createdAt: {
           read: (postedOn, _options) => {
-            return new Date(postedOn)
-          }
-        }
-      }
+            return new Date(postedOn);
+          },
+        },
+      },
     },
     Account: {
       fields: {

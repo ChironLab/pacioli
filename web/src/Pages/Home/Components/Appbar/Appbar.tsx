@@ -1,7 +1,9 @@
 import React from 'react';
+import { useReactiveVar } from '@apollo/client';
+import DatePicker from '@material-ui/lab/DatePicker';
 import { Menu as MenuIcon } from '@material-ui/icons';
 import { Toolbar, Typography, IconButton, TextField } from '@material-ui/core';
-import { format, startOfDay, endOfDay } from 'date-fns';
+import { endOfDay } from 'date-fns';
 import { AppBar } from './styles';
 import { startDateVar, endDateVar } from '../../../../Context/Apollo';
 
@@ -11,6 +13,9 @@ type Props = {
 };
 
 const Appbar = ({ toggleDrawer, isDrawerOpen }: Props) => {
+  const startDate = useReactiveVar(startDateVar);
+  const endDate = useReactiveVar(endDateVar);
+
   return (
     <AppBar position='fixed' open={isDrawerOpen}>
       <Toolbar>
@@ -29,32 +34,28 @@ const Appbar = ({ toggleDrawer, isDrawerOpen }: Props) => {
         <Typography variant='h6' noWrap>
           Pacioli
         </Typography>
-        <form noValidate>
-          <TextField
-            id='startDate'
-            label='Start Date'
-            type='date'
-            defaultValue={format(startDateVar(), 'yyyy-MM-dd')}
-            onChange={(e: any) =>
-              startDateVar(startOfDay(new Date(e.target.valueAsDate)))
+        <DatePicker
+          label='Start Date'
+          value={startDate}
+          onChange={(newValue) => {
+            if (!newValue) {
+              return;
             }
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <TextField
-            id='endDate'
-            label='End Date'
-            type='date'
-            defaultValue={format(endDateVar(), 'yyyy-MM-dd')}
-            onChange={(e: any) =>
-              endDateVar(endOfDay(new Date(e.target.valueAsDate)))
+            startDateVar(new Date(newValue));
+          }}
+          renderInput={(params) => <TextField {...params} />}
+        />
+        <DatePicker
+          label='End Date'
+          value={endDate}
+          onChange={(newValue) => {
+            if (!newValue) {
+              return;
             }
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </form>
+            endDateVar(endOfDay(new Date(newValue)));
+          }}
+          renderInput={(params) => <TextField {...params} />}
+        />
       </Toolbar>
     </AppBar>
   );

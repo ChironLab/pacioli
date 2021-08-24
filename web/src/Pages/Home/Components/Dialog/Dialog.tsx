@@ -7,10 +7,15 @@ type Props = {
   isModalOpen: boolean;
   toggleModal: () => void;
   children: JSX.Element | JSX.Element[];
-  title: string
+  title: string;
 };
 
-const ResponsiveDialog = ({ isModalOpen, toggleModal, title, children }: Props) => {
+const ResponsiveDialog = ({
+  isModalOpen,
+  toggleModal,
+  title,
+  children,
+}: Props) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
 
@@ -21,9 +26,7 @@ const ResponsiveDialog = ({ isModalOpen, toggleModal, title, children }: Props) 
       onClose={toggleModal}
       aria-labelledby='dialog-title'
     >
-      <DialogTitle>
-        {title}
-      </DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
     </Dialog>
   );

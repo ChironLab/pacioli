@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
-import type {Account} from './types'
-
+import type { Account } from './types';
 
 export const getTrialBalance = gql`
   query getTrialBalance($startAndEndDate: StartAndEndDate!) {
@@ -22,7 +21,5 @@ export const getTrialBalance = gql`
 `;
 
 export type GetTrialBalance = {
-
-    accounts: Account[]
-  
-}
+  accounts: Account[];
+};
