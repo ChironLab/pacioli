@@ -1,5 +1,5 @@
+import { LocalAtmRounded } from '@material-ui/icons';
 import AccountantComponent from './Accountant';
-import { BallotRounded } from '@material-ui/icons';
 import type { Page, PageMeta } from '../types';
 import { HOME_PATH } from '../../constants';
 
@@ -10,7 +10,7 @@ const route = {
 
 const meta: PageMeta = {
   name: 'Accountant',
-  icon: BallotRounded,
+  icon: LocalAtmRounded,
   navPosition: 'bottom',
 };
 

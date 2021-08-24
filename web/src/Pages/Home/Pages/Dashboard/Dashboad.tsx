@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery, useReactiveVar } from '@apollo/client';
+import {Redirect} from 'react-router-dom'
 import { CircularProgress } from '@material-ui/core';
 import {
   Table,
@@ -31,7 +32,9 @@ const Dashboard = ({ isModalOpen, toggleModal }: Props) => {
     },
   });
 
-  console.log('**** dataaa', data);
+  if(data && !data.accounts.length) {
+    return <Redirect to='/setup' />
+  }
 
   if (loading) {
     return <CircularProgress />;
@@ -41,10 +44,12 @@ const Dashboard = ({ isModalOpen, toggleModal }: Props) => {
     return <p> ERRRROR PLEASE RELOAD </p>;
   }
 
+  console.log(data)
+
   return (
     <>
       <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label='simple table'>
+        <Table   className={classes.table} aria-label='simple table'>
           <TableHead>
             <TableRow>
               <TableCell>Account Number</TableCell>

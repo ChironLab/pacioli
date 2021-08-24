@@ -1,7 +1,5 @@
 import React from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import {Dialog, DialogContent, DialogTitle} from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 
@@ -13,7 +11,7 @@ type Props = {
 
 const ResponsiveDialog = ({ isModalOpen, toggleModal, children }: Props) => {
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
 
   return (
     <Dialog

@@ -5,7 +5,8 @@ const Root = () => {
   return (
     <main>
       <header> Welcome to Pacioli </header>
-      <Link to='/home'> TAKE ME HOME </Link>
+      <Link to='/home'> Take me home </Link>
+      <Link to='/setup'> First time setup </Link>
     </main>
   );
 };

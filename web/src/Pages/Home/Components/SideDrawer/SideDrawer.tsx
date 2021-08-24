@@ -1,12 +1,11 @@
 import React from 'react';
-import clsx from 'clsx';
 import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
 } from '@material-ui/icons';
 import { useTheme } from '@material-ui/core/styles';
-import { Drawer, List, Divider, IconButton } from '@material-ui/core';
-import { useStyles } from './styles';
+import { List, Divider, IconButton } from '@material-ui/core';
+import { Drawer, DrawerHeader } from './styles';
 import type { Page } from '../../Pages';
 import LinkItem from './LinkItem';
 
@@ -22,7 +21,6 @@ type NavAccumulator = {
 };
 
 const SideDrawer = ({ toggleDrawer, isDrawerOpen, pages }: Props) => {
-  const classes = useStyles();
   const theme = useTheme();
 
   const { topNav, bottomNav } = pages.reduce(
@@ -53,26 +51,17 @@ const SideDrawer = ({ toggleDrawer, isDrawerOpen, pages }: Props) => {
   return (
     <Drawer
       variant='permanent'
-      className={clsx(classes.drawer, {
-        [classes.drawerOpen]: isDrawerOpen,
-        [classes.drawerClose]: !isDrawerOpen,
-      })}
-      classes={{
-        paper: clsx({
-          [classes.drawerOpen]: isDrawerOpen,
-          [classes.drawerClose]: !isDrawerOpen,
-        }),
-      }}
+      open={isDrawerOpen}
     >
-      <div className={classes.toolbar}>
-        <IconButton onClick={toggleDrawer}>
+      <DrawerHeader>
+        <IconButton onClick={toggleDrawer} size="large">
           {theme.direction === 'rtl' ? (
             <ChevronRightIcon />
           ) : (
             <ChevronLeftIcon />
           )}
         </IconButton>
-      </div>
+      </DrawerHeader>
       <Divider />
       <List>{topNav}</List>
       <Divider />

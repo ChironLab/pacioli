@@ -1,15 +1,13 @@
 import React from 'react';
-import clsx from 'clsx';
 import { Menu as MenuIcon } from '@material-ui/icons';
 import {
-  AppBar,
   Toolbar,
   Typography,
   IconButton,
   TextField,
 } from '@material-ui/core';
 import { format, startOfDay, endOfDay } from 'date-fns';
-import { useStyles } from './styles';
+import { AppBar } from './styles';
 import { startDateVar, endDateVar } from '../../../../Context/Apollo';
 
 type Props = {
@@ -18,14 +16,11 @@ type Props = {
 };
 
 const Appbar = ({ toggleDrawer, isDrawerOpen }: Props) => {
-  const classes = useStyles();
 
   return (
     <AppBar
       position='fixed'
-      className={clsx(classes.appBar, {
-        [classes.appBarShift]: isDrawerOpen,
-      })}
+      open={isDrawerOpen}
     >
       <Toolbar>
         <IconButton
@@ -33,21 +28,20 @@ const Appbar = ({ toggleDrawer, isDrawerOpen }: Props) => {
           aria-label='open drawer'
           onClick={toggleDrawer}
           edge='start'
-          className={clsx(classes.menuButton, {
-            [classes.hide]: isDrawerOpen,
-          })}
-        >
+          sx={{
+            marginRight: '36px',
+            ...(isDrawerOpen && { display: 'none' }),
+          }}>
           <MenuIcon />
         </IconButton>
         <Typography variant='h6' noWrap>
           Pacioli
         </Typography>
-        <form className={classes.dateInputContainer} noValidate>
+        <form noValidate>
           <TextField
             id='startDate'
             label='Start Date'
             type='date'
-            className={classes.dateInput}
             defaultValue={format(startDateVar(), 'yyyy-MM-dd')}
             onChange={(e: any) =>
               startDateVar(startOfDay(new Date(e.target.valueAsDate)))
@@ -60,7 +54,6 @@ const Appbar = ({ toggleDrawer, isDrawerOpen }: Props) => {
             id='endDate'
             label='End Date'
             type='date'
-            className={classes.dateInput}
             defaultValue={format(endDateVar(), 'yyyy-MM-dd')}
             onChange={(e: any) =>
               endDateVar(endOfDay(new Date(e.target.valueAsDate)))

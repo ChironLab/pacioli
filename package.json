@@ -18,7 +18,8 @@
     "dev:web": "yarn workspace web start",
     "dev": "concurrently \"yarn:dev:*\" -k",
     "start": "yarn workspace api start",
-    "generate": "yarn workspace api generate"
+    "generate": "yarn workspace api generate",
+    "format": "yarn workspace api format && yarn workspace web format"
   },
   "devDependencies": {
     "concurrently": "^6.2.1"

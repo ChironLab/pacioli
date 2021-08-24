@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import { CssBaseline } from '@material-ui/core';
 
 import Appbar from './Components/Appbar';
 import SideDrawer from './Components/SideDrawer';
@@ -13,6 +14,7 @@ const Home = () => {
 
   return (
     <main className={classes.root}>
+      <CssBaseline />
       <Appbar
         isDrawerOpen={isDrawerOpen}
         toggleDrawer={() => toggleDrawer((prevState) => !prevState)}
