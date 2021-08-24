@@ -1,4 +1,4 @@
 import ApolloProvider from './Apollo';
-export *  from './cache'
+import { startDateVar, endDateVar } from './dateManager';
 
-export { ApolloProvider };
+export { ApolloProvider, startDateVar, endDateVar };

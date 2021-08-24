@@ -15,14 +15,13 @@ export const transaction = objectType({
     t.nonNull.field('type', { type: transactionType });
     t.string('description');
     t.json('meta');
-    t.nonNull.field('journal', {
+    t.field('journal', {
       type: schema.journal.objects.journal,
       resolve: (root, _args, context) =>
         context.db.journal.findUnique({
           where: {
             id: root.id,
           },
-          rejectOnNotFound: true,
         }),
     });
   },

@@ -8,7 +8,7 @@ type Account {
   active: Boolean!
 
   """Related entries that make up the value."""
-  entries(startAndEndDate: StartAndEndDate): [Entry]!
+  entries(startAndEndDate: StartAndEndDate): [Entry]
 
   """Account id, range from 1000 - 9999"""
   id: Int!
@@ -115,7 +115,7 @@ input StartAndEndDate {
 type Transaction {
   description: String
   id: ID!
-  journal: Journal!
+  journal: Journal
   meta: JSON
   type: TransactionType!
 }
@@ -132,7 +132,7 @@ type Transactor {
   id: ID!
   meta: JSON
   name: String!
-  transactions(startAndEndDate: StartAndEndDate): [Transaction]!
+  transactions(startAndEndDate: StartAndEndDate): [Transaction]
   type: TransactorType!
 }
 

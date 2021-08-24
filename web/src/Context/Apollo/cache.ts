@@ -1,6 +1,32 @@
-import { makeVar } from '@apollo/client';
-import {startOfYear} from 'date-fns'
+import { InMemoryCache } from '@apollo/client';
 
-export const startDateVar = makeVar(startOfYear(new Date()))
-
-export const endDateVar = makeVar(new Date())
+export const cache = new InMemoryCache({
+  typePolicies: {
+    Account: {
+      fields: {
+        entryIds: {
+          read: (_entryIds, options) => {
+            const entryRefs: readonly any[] | undefined =
+              options.readField('entries');
+            return (
+              entryRefs?.map((entryRef) => options.readField('id', entryRef)) ||
+              []
+            );
+          },
+        },
+        value: {
+          read: (_value, options) => {
+            const entryRefs: readonly any[] | undefined =
+              options.readField('entries');
+            return (
+              entryRefs?.reduce(
+                (acc, entryRef) => acc + options.readField('amount', entryRef),
+                0
+              ) || 0
+            );
+          },
+        },
+      },
+    },
+  },
+});

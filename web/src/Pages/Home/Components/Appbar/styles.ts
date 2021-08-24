@@ -23,4 +23,12 @@ export const useStyles = makeStyles((theme) => ({
   hide: {
     display: 'none',
   },
+  dateInputContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  dateInput: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
 }));

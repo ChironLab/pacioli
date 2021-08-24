@@ -4,7 +4,7 @@ import { initPrisma } from './prisma';
 
 export const initConfig = () => {
   const logger = initLogger(env.environment);
-  const prisma = initPrisma();
+  const prisma = initPrisma(env.environment);
   return {
     env,
     logger,

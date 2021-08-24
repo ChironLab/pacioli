@@ -17,9 +17,8 @@ export const transactor = objectType({
     t.nonNull.field('type', { type: transactorType });
     t.nonNull.boolean('active');
     t.json('meta');
-    t.nonNull.field('transactions', {
+    t.list.field('transactions', {
       type: schema.objects.transaction,
-      list: true,
       args: {
         startAndEndDate: arg({
           type: fields.START_AND_END_DATE,

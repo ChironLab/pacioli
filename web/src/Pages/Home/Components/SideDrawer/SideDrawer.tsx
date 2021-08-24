@@ -7,7 +7,7 @@ import {
 import { useTheme } from '@material-ui/core/styles';
 import { Drawer, List, Divider, IconButton } from '@material-ui/core';
 import { useStyles } from './styles';
-import type { Page } from '../../types';
+import type { Page } from '../../Pages';
 import LinkItem from './LinkItem';
 
 type Props = {
