@@ -32,8 +32,8 @@ export const queryAccounts = extendType({
             },
           },
           orderBy: {
-            id: 'asc'
-          }
+            id: 'asc',
+          },
         });
       },
     });

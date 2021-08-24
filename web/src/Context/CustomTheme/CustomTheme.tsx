@@ -1,4 +1,9 @@
-import { ThemeProvider, Theme, StyledEngineProvider, createTheme } from '@material-ui/core/styles';
+import {
+  ThemeProvider,
+  Theme,
+  StyledEngineProvider,
+  createTheme,
+} from '@material-ui/core/styles';
 
 declare module '@material-ui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -17,6 +22,6 @@ const ThemeWrapper = ({ children }: Props) => {
       <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </StyledEngineProvider>
   );
-}
+};
 
-export default ThemeWrapper
+export default ThemeWrapper;

@@ -49,12 +49,9 @@ const SideDrawer = ({ toggleDrawer, isDrawerOpen, pages }: Props) => {
   );
 
   return (
-    <Drawer
-      variant='permanent'
-      open={isDrawerOpen}
-    >
+    <Drawer variant='permanent' open={isDrawerOpen}>
       <DrawerHeader>
-        <IconButton onClick={toggleDrawer} size="large">
+        <IconButton onClick={toggleDrawer} size='large'>
           {theme.direction === 'rtl' ? (
             <ChevronRightIcon />
           ) : (

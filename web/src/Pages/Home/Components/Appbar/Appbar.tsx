@@ -1,11 +1,6 @@
 import React from 'react';
 import { Menu as MenuIcon } from '@material-ui/icons';
-import {
-  Toolbar,
-  Typography,
-  IconButton,
-  TextField,
-} from '@material-ui/core';
+import { Toolbar, Typography, IconButton, TextField } from '@material-ui/core';
 import { format, startOfDay, endOfDay } from 'date-fns';
 import { AppBar } from './styles';
 import { startDateVar, endDateVar } from '../../../../Context/Apollo';
@@ -16,12 +11,8 @@ type Props = {
 };
 
 const Appbar = ({ toggleDrawer, isDrawerOpen }: Props) => {
-
   return (
-    <AppBar
-      position='fixed'
-      open={isDrawerOpen}
-    >
+    <AppBar position='fixed' open={isDrawerOpen}>
       <Toolbar>
         <IconButton
           color='inherit'
@@ -31,7 +22,8 @@ const Appbar = ({ toggleDrawer, isDrawerOpen }: Props) => {
           sx={{
             marginRight: '36px',
             ...(isDrawerOpen && { display: 'none' }),
-          }}>
+          }}
+        >
           <MenuIcon />
         </IconButton>
         <Typography variant='h6' noWrap>

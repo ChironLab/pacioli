@@ -2,6 +2,20 @@ import { InMemoryCache } from '@apollo/client';
 
 export const cache = new InMemoryCache({
   typePolicies: {
+    Journal: {
+      fields: {
+        postedOn: {
+          read: (postedOn, _options) => {
+            return new Date(postedOn)
+          }
+        },
+        createdAt: {
+          read: (postedOn, _options) => {
+            return new Date(postedOn)
+          }
+        }
+      }
+    },
     Account: {
       fields: {
         entryIds: {

@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import type {Transactor} from './types'
 
 export const getTransactors = gql`
   query getTransactors($startAndEndDate: StartAndEndDate!) {
@@ -6,6 +7,7 @@ export const getTransactors = gql`
       id
       name
       type
+      meta
       transactions(startAndEndDate: $startAndEndDate) {
         id
         description
@@ -27,3 +29,11 @@ export const getTransactors = gql`
     }
   }
 `;
+
+
+
+export type GetTransactors = {
+
+    transactors: Transactor[]
+  
+}

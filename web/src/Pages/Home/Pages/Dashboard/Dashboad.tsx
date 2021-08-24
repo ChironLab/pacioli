@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery, useReactiveVar } from '@apollo/client';
-import {Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import {
   Table,
@@ -11,7 +11,7 @@ import {
   TableRow,
   Paper,
 } from '@material-ui/core';
-import { getTrialBalance } from '../../API';
+import { getTrialBalance, GraphQLTypes } from '../../API';
 import { startDateVar, endDateVar } from '../../../../Context/Apollo';
 import Dialog from '../../Components/Dialog';
 import { displayAccountingValue } from '../utilites';
@@ -23,7 +23,7 @@ const Dashboard = ({ isModalOpen, toggleModal }: Props) => {
   const endDate = useReactiveVar(endDateVar);
   const classes = useStyles();
 
-  const { loading, error, data } = useQuery(getTrialBalance, {
+  const { loading, error, data } = useQuery<GraphQLTypes['GetTrialBalance']>(getTrialBalance, {
     variables: {
       startAndEndDate: {
         startDate,
@@ -32,24 +32,24 @@ const Dashboard = ({ isModalOpen, toggleModal }: Props) => {
     },
   });
 
-  if(data && !data.accounts.length) {
-    return <Redirect to='/setup' />
+  if (data && !data.accounts.length) {
+    return <Redirect to='/setup' />;
   }
 
   if (loading) {
     return <CircularProgress />;
   }
 
-  if (error) {
+  if (error || !data) {
     return <p> ERRRROR PLEASE RELOAD </p>;
   }
 
-  console.log(data)
+  console.log(data);
 
   return (
     <>
       <TableContainer component={Paper}>
-        <Table   className={classes.table} aria-label='simple table'>
+        <Table className={classes.table} aria-label='simple table'>
           <TableHead>
             <TableRow>
               <TableCell>Account Number</TableCell>
@@ -75,7 +75,7 @@ const Dashboard = ({ isModalOpen, toggleModal }: Props) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Dialog isModalOpen={isModalOpen} toggleModal={toggleModal}>
+      <Dialog isModalOpen={isModalOpen} toggleModal={toggleModal} title={'ababab'}>
         <div> YAYAYAYA </div>
       </Dialog>
     </>
