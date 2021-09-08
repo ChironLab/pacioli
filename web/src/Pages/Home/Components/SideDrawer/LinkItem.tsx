@@ -10,6 +10,11 @@ type Props = {
 
 const LinkItem = ({ page }: Props) => {
   const { meta: pageMeta, route } = page;
+
+  if (pageMeta.navPosition === 'none') {
+    return null;
+  }
+
   const { name, icon: Icon } = pageMeta;
 
   return (

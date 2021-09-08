@@ -1,0 +1,11 @@
+overwrite: true
+schema:
+  - "http://localhost:4000/graphql"
+  - ./src/Types/ApolloLocalState.graphql
+documents: "src/API"
+generates:
+  src/Types/graphql-gen.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"

@@ -7,13 +7,19 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier . --write"
+    "format": "prettier . --write",
+    "generate": "graphql-codegen --config codegen.yml"
   },
   "devDependencies": {
     "@apollo/client": "^3.4.5",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@graphql-codegen/cli": "2.1.1",
+    "@graphql-codegen/typescript": "2.1.2",
+    "@graphql-codegen/typescript-operations": "2.1.2",
+    "@graphql-codegen/typescript-react-apollo": "3.1.2",
     "@material-ui/core": "next",
+    "@material-ui/data-grid": "^4.0.0-alpha.37",
     "@material-ui/icons": "next",
     "@material-ui/lab": "next",
     "@material-ui/styles": "next",

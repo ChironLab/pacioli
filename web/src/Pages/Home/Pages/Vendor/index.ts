@@ -1,6 +1,6 @@
 import VendorComponent from './Vendor';
 import { ReceiptRounded } from '@material-ui/icons';
-import type { Page, PageMeta } from '../types';
+import type { Page, PageMetaWithNav } from '../types';
 import { HOME_PATH } from '../../constants';
 
 const route = {
@@ -8,7 +8,7 @@ const route = {
   exact: true,
 };
 
-const meta: PageMeta = {
+const meta: PageMetaWithNav = {
   name: 'Vendor Center',
   icon: ReceiptRounded,
   navPosition: 'top',

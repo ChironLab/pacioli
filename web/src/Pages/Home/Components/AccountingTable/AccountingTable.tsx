@@ -8,7 +8,7 @@ import {
   TableRow,
   Paper,
 } from '@material-ui/core';
-import { displayAccountingValue } from '../utilites';
+import { displayAccountingValue } from 'Utilities';
 
 type Props = {
   headers: string[];
@@ -27,10 +27,7 @@ const AccountingTable = ({ rows, headers }: Props) => {
         <TableHead>
           <TableRow>
             {headers.map((header) => (
-              <TableCell key={`accountingTable_${header}`}>
-                {' '}
-                {header}{' '}
-              </TableCell>
+              <TableCell key={`accountingTable_${header}`}>{header}</TableCell>
             ))}
           </TableRow>
         </TableHead>

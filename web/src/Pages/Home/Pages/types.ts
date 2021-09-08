@@ -3,10 +3,15 @@ import type { SvgIconComponent } from '@material-ui/icons';
 
 type NavPosition = 'top' | 'bottom' | 'none';
 
-export type PageMeta = {
+export type PageMetaWithNav = {
   name: string;
   icon: SvgIconComponent;
   navPosition: NavPosition;
+};
+
+export type PageMetaWithNoNav = {
+  name: string;
+  navPosition: 'none';
 };
 
 export type PageRoute = {
@@ -17,5 +22,5 @@ export type PageRoute = {
 export type Page = {
   route: PageRoute & RouteProps;
   Component: () => JSX.Element;
-  meta: PageMeta;
+  meta: PageMetaWithNav | PageMetaWithNoNav;
 };
