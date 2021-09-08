@@ -11,7 +11,50 @@ export const queryAccounts = extendType({
         startAndEndDate: arg({
           type: fields.START_AND_END_DATE,
         }),
-        id: intArg(),
+      },
+      resolve: (_root, args, context) => {
+        const { startDate, endDate } = context.services.util.getStartAndEndDate(
+          args.startAndEndDate?.startDate,
+          args.startAndEndDate?.endDate
+        );
+
+        return context.db.account.findMany({
+          where: {
+            OR: [
+              { active: true },
+              {
+                entries: {
+                  some: {
+                    journal: {
+                      postedOn: {
+                        gte: startDate,
+                        lte: endDate,
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          orderBy: {
+            id: 'asc',
+          },
+        });
+      },
+    });
+  },
+});
+
+export const queryAccountById = extendType({
+  type: 'Query',
+  definition: (t) => {
+    t.field('account', {
+      type: account,
+      args: {
+        id: intArg({ required: true }),
+        startAndEndDate: arg({
+          type: fields.START_AND_END_DATE,
+        }),
       },
       resolve: (_root, args, context) => {
         const { startDate, endDate } = context.services.util.getStartAndEndDate(
@@ -21,11 +64,13 @@ export const queryAccounts = extendType({
 
         const { id } = args;
 
-        return context.db.account.findMany({
+        return context.db.account.findUnique({
           where: {
-            ...(id && { id }),
+            id,
+          },
+          include: {
             entries: {
-              every: {
+              where: {
                 journal: {
                   postedOn: {
                     gte: startDate,
@@ -34,9 +79,6 @@ export const queryAccounts = extendType({
                 },
               },
             },
-          },
-          orderBy: {
-            id: 'asc',
           },
         });
       },

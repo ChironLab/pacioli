@@ -10,7 +10,7 @@ import path from 'path';
 const dateTimeScalar = asNexusMethod(DateTimeResolver, 'date');
 const jsonScalar = asNexusMethod(JSONResolver, 'json');
 
-export const schema = makeSchema({
+makeSchema({
   types: [dateTimeScalar, jsonScalar],
   shouldGenerateArtifacts:
     process.env.SHOULD_SCHEMA_GEN === 'true' ||
@@ -23,3 +23,5 @@ export const schema = makeSchema({
     ),
   },
 });
+
+export {};

@@ -10,8 +10,8 @@ export const cache = new InMemoryCache({
           },
         },
         createdAt: {
-          read: (postedOn, _options) => {
-            return new Date(postedOn);
+          read: (createdAt, _options) => {
+            return new Date(createdAt);
           },
         },
       },
@@ -42,5 +42,14 @@ export const cache = new InMemoryCache({
         },
       },
     },
+    Transaction: {
+      fields: {
+        meta: {
+          read: (meta, _options) => {
+            return JSON.parse(meta)
+          }
+        }
+      }
+    }
   },
 });

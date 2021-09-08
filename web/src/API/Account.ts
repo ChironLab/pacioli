@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const getAccountDetail = gql`
   query getAccountDetail($id: Int!, $startAndEndDate: StartAndEndDate!) {
-    accounts(id: $id, startAndEndDate: $startAndEndDate) {
+    account(id: $id, startAndEndDate: $startAndEndDate) {
       id
       name
       entries {

@@ -34,10 +34,6 @@ const Dashboard = () => {
     }
   );
 
-  if (!data || !data.accounts || !data.accounts.length) {
-    return <Redirect to='/setup' />;
-  }
-
   if (loading) {
     return <CircularProgress />;
   }
@@ -46,30 +42,31 @@ const Dashboard = () => {
     return <p> ERROR PLEASE RELOAD </p>;
   }
 
-  return (
-    <Table
-      headers={headers}
-      rows={data.accounts.reduce((acc: Row[], account) => {
-        if (!account) {
-          return acc;
-        }
+  if (!data || !data.accounts || !data.accounts.length) {
+    return <Redirect to='/setup' />;
+  }
 
-        const { value, id, name } = account;
+  const rows = data.accounts.reduce((acc: Row[], account) => {
+    if (!account) {
+      return acc;
+    }
 
-        const temp = {
-          id,
-          name,
-          value,
-          onClick: () => {
-            history.push(`/home/account/${id}`);
-          },
-        };
+    const { value, id, name } = account;
 
-        acc.push(temp);
-        return acc;
-      }, [] as Row[])}
-    />
-  );
+    const temp = {
+      id,
+      name,
+      value,
+      onClick: () => {
+        history.push(`/home/account/${id}`);
+      },
+    };
+
+    acc.push(temp);
+    return acc;
+  }, [] as Row[]);
+
+  return <Table headers={headers} rows={rows} />;
 };
 
 export default Dashboard;

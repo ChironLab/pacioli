@@ -1,3 +1,3 @@
-import AccountingTable from './AccountingTable';
+import AccountingTable from './AccountingTable'
 
-export default AccountingTable;
+export default AccountingTable

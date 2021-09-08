@@ -1,11 +1,23 @@
 import React from 'react';
 import { gql } from '@apollo/client';
-import AccountingTable from '../AccountingTable';
 import { client } from 'Context/Apollo';
+import {
+  Stack
+} from '@material-ui/core';
+import Header from './Header'
+import AccountingTable from '../AccountingTable'
 
 type Props = {
   cacheId: string | null;
 };
+
+type Row = {
+  id: number;
+  name: string;
+  value: number;
+};
+
+const headers = ['Account Number', 'Account Name', 'Account Value'];
 
 const ShowDetail = ({ cacheId }: Props) => {
   if (!cacheId) {
@@ -13,14 +25,22 @@ const ShowDetail = ({ cacheId }: Props) => {
   }
 
   const res = client.readFragment({
-    id: cacheId,
+    id: `Journal:${cacheId}`,
     fragment: gql`
       fragment Detail on Journal {
-        id
-        type
-        description
+        postedOn
         entries {
           id
+          accountId
+          amount
+        }
+        transaction {
+          description
+          meta
+          type
+        }
+        adjustment {
+          description
         }
       }
     `,
@@ -28,7 +48,37 @@ const ShowDetail = ({ cacheId }: Props) => {
 
   console.log('*****', res);
 
-  return <div> yayayaya </div>;
+  const rows = res.entries.reduce((acc: Row[], entry: any) => {
+    if (!entry) {
+      return acc;
+    }
+
+    const { amount, accountId } = entry;
+
+    const res = client.readFragment({
+      id: `Account:${accountId}`,
+      fragment: gql`
+        fragment Name on Account {
+          name
+        }
+      `,
+    });
+
+    const temp = {
+      id: accountId,
+      value: amount,
+      name: res?.name || 'default'
+    };
+
+    acc.push(temp);
+    return acc;
+  }, [] as Row[])
+
+
+  return (<Stack>
+    <Header description={res.transaction?.description || res.adjustment?.description} meta={res.transaction?.meta}/>
+    <AccountingTable rows={rows} headers={headers} />
+   </Stack>);
 };
 
 export default ShowDetail;

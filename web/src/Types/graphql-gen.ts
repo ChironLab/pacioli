@@ -186,6 +186,7 @@ export type Query = {
   transactions: Array<Maybe<Transaction>>;
   transactors: Array<Maybe<Transactor>>;
   accounts?: Maybe<Array<Maybe<Account>>>;
+  account?: Maybe<Account>;
   journals?: Maybe<Array<Maybe<Journal>>>;
   entries?: Maybe<Array<Maybe<Entry>>>;
   adjustmentById?: Maybe<Adjustment>;
@@ -202,7 +203,11 @@ export type QueryTransactionsArgs = {
 
 export type QueryAccountsArgs = {
   startAndEndDate?: Maybe<StartAndEndDate>;
-  id?: Maybe<Scalars['Int']>;
+};
+
+export type QueryAccountArgs = {
+  id: Scalars['Int'];
+  startAndEndDate?: Maybe<StartAndEndDate>;
 };
 
 export type QueryJournalsArgs = {
@@ -268,53 +273,49 @@ export type GetAccountDetailQueryVariables = Exact<{
 
 export type GetAccountDetailQuery = {
   __typename?: 'Query';
-  accounts?: Maybe<
-    Array<
-      Maybe<{
-        __typename?: 'Account';
-        id: number;
-        name: string;
-        type: AccountType;
-        active: boolean;
-        entries?: Maybe<
-          Array<
-            Maybe<{
-              __typename?: 'Entry';
-              id: string;
-              amount: number;
-              accountId: number;
-              journal: {
-                __typename?: 'Journal';
+  account?: Maybe<{
+    __typename?: 'Account';
+    id: number;
+    name: string;
+    type: AccountType;
+    active: boolean;
+    entries?: Maybe<
+      Array<
+        Maybe<{
+          __typename?: 'Entry';
+          id: string;
+          amount: number;
+          accountId: number;
+          journal: {
+            __typename?: 'Journal';
+            id: string;
+            postedOn: any;
+            type: JournalType;
+            entries: Array<
+              Maybe<{
+                __typename?: 'Entry';
                 id: string;
-                postedOn: any;
-                type: JournalType;
-                entries: Array<
-                  Maybe<{
-                    __typename?: 'Entry';
-                    id: string;
-                    amount: number;
-                    accountId: number;
-                  }>
-                >;
-                transaction?: Maybe<{
-                  __typename?: 'Transaction';
-                  id: string;
-                  description?: Maybe<string>;
-                  meta?: Maybe<any>;
-                  type: TransactionType;
-                }>;
-                adjustment?: Maybe<{
-                  __typename?: 'Adjustment';
-                  id: string;
-                  description?: Maybe<string>;
-                }>;
-              };
-            }>
-          >
-        >;
-      }>
-    >
-  >;
+                amount: number;
+                accountId: number;
+              }>
+            >;
+            transaction?: Maybe<{
+              __typename?: 'Transaction';
+              id: string;
+              description?: Maybe<string>;
+              meta?: Maybe<any>;
+              type: TransactionType;
+            }>;
+            adjustment?: Maybe<{
+              __typename?: 'Adjustment';
+              id: string;
+              description?: Maybe<string>;
+            }>;
+          };
+        }>
+      >
+    >;
+  }>;
 };
 
 export type GetTransactorsQueryVariables = Exact<{
@@ -412,7 +413,7 @@ export type GetTrialBalanceQuery = {
 
 export const GetAccountDetailDocument = gql`
   query getAccountDetail($id: Int!, $startAndEndDate: StartAndEndDate!) {
-    accounts(id: $id, startAndEndDate: $startAndEndDate) {
+    account(id: $id, startAndEndDate: $startAndEndDate) {
       id
       name
       entries {

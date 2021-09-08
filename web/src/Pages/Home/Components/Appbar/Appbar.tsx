@@ -2,7 +2,7 @@ import React from 'react';
 import { useReactiveVar } from '@apollo/client';
 import DatePicker from '@material-ui/lab/DatePicker';
 import { Menu as MenuIcon } from '@material-ui/icons';
-import { Toolbar, Typography, IconButton, TextField } from '@material-ui/core';
+import { Toolbar, Typography, IconButton, TextField, Container } from '@material-ui/core';
 import { endOfDay } from 'date-fns';
 import { AppBar } from './styles';
 import { startDateVar, endDateVar } from '../../../../Context/Apollo';
@@ -18,7 +18,7 @@ const Appbar = ({ toggleDrawer, isDrawerOpen }: Props) => {
 
   return (
     <AppBar position='fixed' open={isDrawerOpen}>
-      <Toolbar>
+      <Toolbar component='nav'>
         <IconButton
           color='inherit'
           aria-label='open drawer'
@@ -34,28 +34,30 @@ const Appbar = ({ toggleDrawer, isDrawerOpen }: Props) => {
         <Typography variant='h6' noWrap>
           Pacioli
         </Typography>
-        <DatePicker
-          label='Start Date'
-          value={startDate}
-          onChange={(newValue) => {
-            if (!newValue) {
-              return;
-            }
-            startDateVar(new Date(newValue));
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        />
-        <DatePicker
-          label='End Date'
-          value={endDate}
-          onChange={(newValue) => {
-            if (!newValue) {
-              return;
-            }
-            endDateVar(endOfDay(new Date(newValue)));
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        />
+        <Container>
+          <DatePicker
+            label='Start Date'
+            value={startDate}
+            onChange={(newValue) => {
+              if (!newValue) {
+                return;
+              }
+              startDateVar(new Date(newValue));
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+          <DatePicker
+            label='End Date'
+            value={endDate}
+            onChange={(newValue) => {
+              if (!newValue) {
+                return;
+              }
+              endDateVar(endOfDay(new Date(newValue)));
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </Container>
       </Toolbar>
     </AppBar>
   );
