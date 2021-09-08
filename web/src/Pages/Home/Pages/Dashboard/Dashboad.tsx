@@ -5,17 +5,17 @@ import { CircularProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { startDateVar, endDateVar } from 'Context/Apollo';
 import { getTrialBalance } from 'API';
-import {GetTrialBalanceQuery} from 'Types/graphql-gen'
+import { GetTrialBalanceQuery } from 'Types/graphql-gen';
 import Table from '../../Components/AccountingTable';
 
 const headers = ['Account Number', 'Account Name', 'Account Value'];
 
 type Row = {
-  id: number
-  name: string
-  value: number
-  onClick: () => void
-}
+  id: number;
+  name: string;
+  value: number;
+  onClick: () => void;
+};
 
 const Dashboard = () => {
   const startDate = useReactiveVar(startDateVar);
@@ -34,7 +34,7 @@ const Dashboard = () => {
     }
   );
 
-  if (!data || !data.accounts || !data?.accounts.length) {
+  if (!data || !data.accounts || !data.accounts.length) {
     return <Redirect to='/setup' />;
   }
 
@@ -50,7 +50,7 @@ const Dashboard = () => {
     <Table
       headers={headers}
       rows={data.accounts.reduce((acc: Row[], account) => {
-        if(!account) {
+        if (!account) {
           return acc;
         }
 
@@ -65,7 +65,7 @@ const Dashboard = () => {
           },
         };
 
-        acc.push(temp)
+        acc.push(temp);
         return acc;
       }, [] as Row[])}
     />

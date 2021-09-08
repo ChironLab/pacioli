@@ -4,14 +4,13 @@ import AccountingTable from '../AccountingTable';
 import { client } from 'Context/Apollo';
 
 type Props = {
-  cacheId: string | null
+  cacheId: string | null;
 };
 
 const ShowDetail = ({ cacheId }: Props) => {
-  if(!cacheId) {
-    return null
+  if (!cacheId) {
+    return null;
   }
-
 
   const res = client.readFragment({
     id: cacheId,

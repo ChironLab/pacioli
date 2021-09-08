@@ -8,7 +8,6 @@ const NavWrapper = () => {
 
   return (
     <>
-      {' '}
       <Appbar
         isDrawerOpen={isDrawerOpen}
         toggleDrawer={() => toggleDrawer((prevState) => !prevState)}

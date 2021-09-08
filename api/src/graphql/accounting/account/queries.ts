@@ -11,7 +11,7 @@ export const queryAccounts = extendType({
         startAndEndDate: arg({
           type: fields.START_AND_END_DATE,
         }),
-        id: intArg()
+        id: intArg(),
       },
       resolve: (_root, args, context) => {
         const { startDate, endDate } = context.services.util.getStartAndEndDate(
@@ -19,11 +19,11 @@ export const queryAccounts = extendType({
           args.startAndEndDate?.endDate
         );
 
-        const {id} = args
+        const { id } = args;
 
         return context.db.account.findMany({
           where: {
-            ...(id && {id}),
+            ...(id && { id }),
             entries: {
               every: {
                 journal: {

@@ -1,10 +1,14 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions = {};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -35,7 +39,6 @@ export type Account = {
   value: Scalars['Float'];
 };
 
-
 /** A single account, e.g. 1000 - Cash on hand.  */
 export type AccountEntriesArgs = {
   startAndEndDate?: Maybe<StartAndEndDate>;
@@ -47,7 +50,7 @@ export enum AccountType {
   Liability = 'LIABILITY',
   Equity = 'EQUITY',
   Revenue = 'REVENUE',
-  Expense = 'EXPENSE'
+  Expense = 'EXPENSE',
 }
 
 /** Adjustments are manually posted to affect the trial balance. */
@@ -58,7 +61,6 @@ export type Adjustment = {
   description?: Maybe<Scalars['String']>;
   journal: Journal;
 };
-
 
 export type Entry = {
   __typename?: 'Entry';
@@ -81,7 +83,6 @@ export type EntryUpdateInput = {
   amount: Scalars['Float'];
 };
 
-
 export type Journal = {
   __typename?: 'Journal';
   id: Scalars['ID'];
@@ -97,7 +98,7 @@ export type Journal = {
 
 export enum JournalType {
   Transaction = 'TRANSACTION',
-  Adjustment = 'ADJUSTMENT'
+  Adjustment = 'ADJUSTMENT',
 }
 
 export type Mutation = {
@@ -116,7 +117,6 @@ export type Mutation = {
   createBeginningBalance: Adjustment;
 };
 
-
 export type MutationCreateTransactionArgs = {
   postedOn?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
@@ -125,11 +125,9 @@ export type MutationCreateTransactionArgs = {
   type: TransactionType;
 };
 
-
 export type MutationDeleteTransactionArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationUpdateTransactionArgs = {
   id: Scalars['ID'];
@@ -140,7 +138,6 @@ export type MutationUpdateTransactionArgs = {
   type: TransactionType;
 };
 
-
 export type MutationCreateOrUpdateTransactorArgs = {
   id?: Maybe<Scalars['ID']>;
   name: Scalars['String'];
@@ -148,11 +145,9 @@ export type MutationCreateOrUpdateTransactorArgs = {
   meta?: Maybe<Scalars['JSON']>;
 };
 
-
 export type MutationDeleteTransactorArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationCreateOrUpdateAccountArgs = {
   id: Scalars['Int'];
@@ -160,11 +155,9 @@ export type MutationCreateOrUpdateAccountArgs = {
   type: AccountType;
 };
 
-
 export type MutationDeleteAccountArgs = {
   id: Scalars['Int'];
 };
-
 
 export type MutationCreateAdjustmentArgs = {
   postedOn?: Maybe<Scalars['DateTime']>;
@@ -172,11 +165,9 @@ export type MutationCreateAdjustmentArgs = {
   entries: Array<EntryCreateInput>;
 };
 
-
 export type MutationDeleteAdjustmentArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationUpdateAdjustmentArgs = {
   id: Scalars['ID'];
@@ -184,7 +175,6 @@ export type MutationUpdateAdjustmentArgs = {
   description: Scalars['String'];
   entries: Array<EntryUpdateInput>;
 };
-
 
 export type MutationCreateBeginningBalanceArgs = {
   entries: Array<EntryCreateInput>;
@@ -202,37 +192,30 @@ export type Query = {
   adjustments?: Maybe<Array<Maybe<Adjustment>>>;
 };
 
-
 export type QueryTransactionByIdArgs = {
   id: Scalars['ID'];
 };
 
-
 export type QueryTransactionsArgs = {
   startAndEndDate?: Maybe<StartAndEndDate>;
 };
-
 
 export type QueryAccountsArgs = {
   startAndEndDate?: Maybe<StartAndEndDate>;
   id?: Maybe<Scalars['Int']>;
 };
 
-
 export type QueryJournalsArgs = {
   startAndEndDate?: Maybe<StartAndEndDate>;
 };
-
 
 export type QueryEntriesArgs = {
   startAndEndDate?: Maybe<StartAndEndDate>;
 };
 
-
 export type QueryAdjustmentByIdArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryAdjustmentsArgs = {
   startAndEndDate?: Maybe<StartAndEndDate>;
@@ -256,7 +239,7 @@ export enum TransactionType {
   VendorInvoice = 'VENDOR_INVOICE',
   CustomerInvoice = 'CUSTOMER_INVOICE',
   Receipt = 'RECEIPT',
-  Payment = 'PAYMENT'
+  Payment = 'PAYMENT',
 }
 
 export type Transactor = {
@@ -269,14 +252,13 @@ export type Transactor = {
   transactions?: Maybe<Array<Maybe<Transaction>>>;
 };
 
-
 export type TransactorTransactionsArgs = {
   startAndEndDate?: Maybe<StartAndEndDate>;
 };
 
 export enum TransactorType {
   Customer = 'CUSTOMER',
-  Vendor = 'VENDOR'
+  Vendor = 'VENDOR',
 }
 
 export type GetAccountDetailQueryVariables = Exact<{
@@ -284,59 +266,185 @@ export type GetAccountDetailQueryVariables = Exact<{
   startAndEndDate: StartAndEndDate;
 }>;
 
-
-export type GetAccountDetailQuery = { __typename?: 'Query', accounts?: Maybe<Array<Maybe<{ __typename?: 'Account', id: number, name: string, type: AccountType, active: boolean, entries?: Maybe<Array<Maybe<{ __typename?: 'Entry', id: string, amount: number, accountId: number, journal: { __typename?: 'Journal', id: string, postedOn: any, type: JournalType, entries: Array<Maybe<{ __typename?: 'Entry', id: string, amount: number, accountId: number }>>, transaction?: Maybe<{ __typename?: 'Transaction', id: string, description?: Maybe<string>, meta?: Maybe<any>, type: TransactionType }>, adjustment?: Maybe<{ __typename?: 'Adjustment', id: string, description?: Maybe<string> }> } }>>> }>>> };
+export type GetAccountDetailQuery = {
+  __typename?: 'Query';
+  accounts?: Maybe<
+    Array<
+      Maybe<{
+        __typename?: 'Account';
+        id: number;
+        name: string;
+        type: AccountType;
+        active: boolean;
+        entries?: Maybe<
+          Array<
+            Maybe<{
+              __typename?: 'Entry';
+              id: string;
+              amount: number;
+              accountId: number;
+              journal: {
+                __typename?: 'Journal';
+                id: string;
+                postedOn: any;
+                type: JournalType;
+                entries: Array<
+                  Maybe<{
+                    __typename?: 'Entry';
+                    id: string;
+                    amount: number;
+                    accountId: number;
+                  }>
+                >;
+                transaction?: Maybe<{
+                  __typename?: 'Transaction';
+                  id: string;
+                  description?: Maybe<string>;
+                  meta?: Maybe<any>;
+                  type: TransactionType;
+                }>;
+                adjustment?: Maybe<{
+                  __typename?: 'Adjustment';
+                  id: string;
+                  description?: Maybe<string>;
+                }>;
+              };
+            }>
+          >
+        >;
+      }>
+    >
+  >;
+};
 
 export type GetTransactorsQueryVariables = Exact<{
   startAndEndDate: StartAndEndDate;
 }>;
 
-
-export type GetTransactorsQuery = { __typename?: 'Query', transactors: Array<Maybe<{ __typename?: 'Transactor', id: string, name: string, type: TransactorType, meta?: Maybe<any>, transactions?: Maybe<Array<Maybe<{ __typename?: 'Transaction', id: string, description?: Maybe<string>, meta?: Maybe<any>, type: TransactionType, journal?: Maybe<{ __typename?: 'Journal', id: string, createdAt: any, postedOn: any, type: JournalType, entries: Array<Maybe<{ __typename?: 'Entry', id: string, amount: number, accountId: number, journalId: string }>> }> }>>> }>> };
+export type GetTransactorsQuery = {
+  __typename?: 'Query';
+  transactors: Array<
+    Maybe<{
+      __typename?: 'Transactor';
+      id: string;
+      name: string;
+      type: TransactorType;
+      meta?: Maybe<any>;
+      transactions?: Maybe<
+        Array<
+          Maybe<{
+            __typename?: 'Transaction';
+            id: string;
+            description?: Maybe<string>;
+            meta?: Maybe<any>;
+            type: TransactionType;
+            journal?: Maybe<{
+              __typename?: 'Journal';
+              id: string;
+              createdAt: any;
+              postedOn: any;
+              type: JournalType;
+              entries: Array<
+                Maybe<{
+                  __typename?: 'Entry';
+                  id: string;
+                  amount: number;
+                  accountId: number;
+                  journalId: string;
+                }>
+              >;
+            }>;
+          }>
+        >
+      >;
+    }>
+  >;
+};
 
 export type GetTrialBalanceQueryVariables = Exact<{
   startAndEndDate: StartAndEndDate;
 }>;
 
-
-export type GetTrialBalanceQuery = { __typename?: 'Query', accounts?: Maybe<Array<Maybe<{ __typename?: 'Account', id: number, name: string, type: AccountType, active: boolean, entryIds: Array<Maybe<string>>, value: number, entries?: Maybe<Array<Maybe<{ __typename?: 'Entry', id: string, amount: number, accountId: number, journal: { __typename?: 'Journal', id: string, postedOn: any, type: JournalType, transaction?: Maybe<{ __typename?: 'Transaction', id: string, description?: Maybe<string>, meta?: Maybe<any>, type: TransactionType }>, adjustment?: Maybe<{ __typename?: 'Adjustment', id: string, description?: Maybe<string> }> } }>>> }>>> };
-
+export type GetTrialBalanceQuery = {
+  __typename?: 'Query';
+  accounts?: Maybe<
+    Array<
+      Maybe<{
+        __typename?: 'Account';
+        id: number;
+        name: string;
+        type: AccountType;
+        active: boolean;
+        entryIds: Array<Maybe<string>>;
+        value: number;
+        entries?: Maybe<
+          Array<
+            Maybe<{
+              __typename?: 'Entry';
+              id: string;
+              amount: number;
+              accountId: number;
+              journal: {
+                __typename?: 'Journal';
+                id: string;
+                postedOn: any;
+                type: JournalType;
+                transaction?: Maybe<{
+                  __typename?: 'Transaction';
+                  id: string;
+                  description?: Maybe<string>;
+                  meta?: Maybe<any>;
+                  type: TransactionType;
+                }>;
+                adjustment?: Maybe<{
+                  __typename?: 'Adjustment';
+                  id: string;
+                  description?: Maybe<string>;
+                }>;
+              };
+            }>
+          >
+        >;
+      }>
+    >
+  >;
+};
 
 export const GetAccountDetailDocument = gql`
-    query getAccountDetail($id: Int!, $startAndEndDate: StartAndEndDate!) {
-  accounts(id: $id, startAndEndDate: $startAndEndDate) {
-    id
-    name
-    entries {
+  query getAccountDetail($id: Int!, $startAndEndDate: StartAndEndDate!) {
+    accounts(id: $id, startAndEndDate: $startAndEndDate) {
       id
-      amount
-      accountId
-      journal {
+      name
+      entries {
         id
-        postedOn
-        type
-        entries {
+        amount
+        accountId
+        journal {
           id
-          amount
-          accountId
-        }
-        transaction {
-          id
-          description
-          meta
+          postedOn
           type
-        }
-        adjustment {
-          id
-          description
+          entries {
+            id
+            amount
+            accountId
+          }
+          transaction {
+            id
+            description
+            meta
+            type
+          }
+          adjustment {
+            id
+            description
+          }
         }
       }
+      type
+      active
     }
-    type
-    active
   }
-}
-    `;
+`;
 
 /**
  * __useGetAccountDetailQuery__
@@ -355,45 +463,68 @@ export const GetAccountDetailDocument = gql`
  *   },
  * });
  */
-export function useGetAccountDetailQuery(baseOptions: Apollo.QueryHookOptions<GetAccountDetailQuery, GetAccountDetailQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAccountDetailQuery, GetAccountDetailQueryVariables>(GetAccountDetailDocument, options);
-      }
-export function useGetAccountDetailLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAccountDetailQuery, GetAccountDetailQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAccountDetailQuery, GetAccountDetailQueryVariables>(GetAccountDetailDocument, options);
-        }
-export type GetAccountDetailQueryHookResult = ReturnType<typeof useGetAccountDetailQuery>;
-export type GetAccountDetailLazyQueryHookResult = ReturnType<typeof useGetAccountDetailLazyQuery>;
-export type GetAccountDetailQueryResult = Apollo.QueryResult<GetAccountDetailQuery, GetAccountDetailQueryVariables>;
+export function useGetAccountDetailQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetAccountDetailQuery,
+    GetAccountDetailQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetAccountDetailQuery, GetAccountDetailQueryVariables>(
+    GetAccountDetailDocument,
+    options
+  );
+}
+export function useGetAccountDetailLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAccountDetailQuery,
+    GetAccountDetailQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetAccountDetailQuery,
+    GetAccountDetailQueryVariables
+  >(GetAccountDetailDocument, options);
+}
+export type GetAccountDetailQueryHookResult = ReturnType<
+  typeof useGetAccountDetailQuery
+>;
+export type GetAccountDetailLazyQueryHookResult = ReturnType<
+  typeof useGetAccountDetailLazyQuery
+>;
+export type GetAccountDetailQueryResult = Apollo.QueryResult<
+  GetAccountDetailQuery,
+  GetAccountDetailQueryVariables
+>;
 export const GetTransactorsDocument = gql`
-    query getTransactors($startAndEndDate: StartAndEndDate!) {
-  transactors {
-    id
-    name
-    type
-    meta
-    transactions(startAndEndDate: $startAndEndDate) {
+  query getTransactors($startAndEndDate: StartAndEndDate!) {
+    transactors {
       id
-      description
-      meta
+      name
       type
-      journal {
+      meta
+      transactions(startAndEndDate: $startAndEndDate) {
         id
-        createdAt
-        postedOn
+        description
+        meta
         type
-        entries {
+        journal {
           id
-          amount
-          accountId
-          journalId
+          createdAt
+          postedOn
+          type
+          entries {
+            id
+            amount
+            accountId
+            journalId
+          }
         }
       }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useGetTransactorsQuery__
@@ -411,49 +542,72 @@ export const GetTransactorsDocument = gql`
  *   },
  * });
  */
-export function useGetTransactorsQuery(baseOptions: Apollo.QueryHookOptions<GetTransactorsQuery, GetTransactorsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTransactorsQuery, GetTransactorsQueryVariables>(GetTransactorsDocument, options);
-      }
-export function useGetTransactorsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTransactorsQuery, GetTransactorsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTransactorsQuery, GetTransactorsQueryVariables>(GetTransactorsDocument, options);
-        }
-export type GetTransactorsQueryHookResult = ReturnType<typeof useGetTransactorsQuery>;
-export type GetTransactorsLazyQueryHookResult = ReturnType<typeof useGetTransactorsLazyQuery>;
-export type GetTransactorsQueryResult = Apollo.QueryResult<GetTransactorsQuery, GetTransactorsQueryVariables>;
-export const GetTrialBalanceDocument = gql`
-    query getTrialBalance($startAndEndDate: StartAndEndDate!) {
-  accounts(startAndEndDate: $startAndEndDate) {
-    id
-    name
-    entries {
-      id
-      amount
-      accountId
-      journal {
-        id
-        postedOn
-        type
-        transaction {
-          id
-          description
-          meta
-          type
-        }
-        adjustment {
-          id
-          description
-        }
-      }
-    }
-    type
-    active
-    entryIds @client
-    value @client
-  }
+export function useGetTransactorsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetTransactorsQuery,
+    GetTransactorsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetTransactorsQuery, GetTransactorsQueryVariables>(
+    GetTransactorsDocument,
+    options
+  );
 }
-    `;
+export function useGetTransactorsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetTransactorsQuery,
+    GetTransactorsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetTransactorsQuery, GetTransactorsQueryVariables>(
+    GetTransactorsDocument,
+    options
+  );
+}
+export type GetTransactorsQueryHookResult = ReturnType<
+  typeof useGetTransactorsQuery
+>;
+export type GetTransactorsLazyQueryHookResult = ReturnType<
+  typeof useGetTransactorsLazyQuery
+>;
+export type GetTransactorsQueryResult = Apollo.QueryResult<
+  GetTransactorsQuery,
+  GetTransactorsQueryVariables
+>;
+export const GetTrialBalanceDocument = gql`
+  query getTrialBalance($startAndEndDate: StartAndEndDate!) {
+    accounts(startAndEndDate: $startAndEndDate) {
+      id
+      name
+      entries {
+        id
+        amount
+        accountId
+        journal {
+          id
+          postedOn
+          type
+          transaction {
+            id
+            description
+            meta
+            type
+          }
+          adjustment {
+            id
+            description
+          }
+        }
+      }
+      type
+      active
+      entryIds @client
+      value @client
+    }
+  }
+`;
 
 /**
  * __useGetTrialBalanceQuery__
@@ -471,14 +625,37 @@ export const GetTrialBalanceDocument = gql`
  *   },
  * });
  */
-export function useGetTrialBalanceQuery(baseOptions: Apollo.QueryHookOptions<GetTrialBalanceQuery, GetTrialBalanceQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTrialBalanceQuery, GetTrialBalanceQueryVariables>(GetTrialBalanceDocument, options);
-      }
-export function useGetTrialBalanceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTrialBalanceQuery, GetTrialBalanceQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTrialBalanceQuery, GetTrialBalanceQueryVariables>(GetTrialBalanceDocument, options);
-        }
-export type GetTrialBalanceQueryHookResult = ReturnType<typeof useGetTrialBalanceQuery>;
-export type GetTrialBalanceLazyQueryHookResult = ReturnType<typeof useGetTrialBalanceLazyQuery>;
-export type GetTrialBalanceQueryResult = Apollo.QueryResult<GetTrialBalanceQuery, GetTrialBalanceQueryVariables>;
+export function useGetTrialBalanceQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetTrialBalanceQuery,
+    GetTrialBalanceQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetTrialBalanceQuery, GetTrialBalanceQueryVariables>(
+    GetTrialBalanceDocument,
+    options
+  );
+}
+export function useGetTrialBalanceLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetTrialBalanceQuery,
+    GetTrialBalanceQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetTrialBalanceQuery,
+    GetTrialBalanceQueryVariables
+  >(GetTrialBalanceDocument, options);
+}
+export type GetTrialBalanceQueryHookResult = ReturnType<
+  typeof useGetTrialBalanceQuery
+>;
+export type GetTrialBalanceLazyQueryHookResult = ReturnType<
+  typeof useGetTrialBalanceLazyQuery
+>;
+export type GetTrialBalanceQueryResult = Apollo.QueryResult<
+  GetTrialBalanceQuery,
+  GetTrialBalanceQueryVariables
+>;

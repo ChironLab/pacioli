@@ -4,11 +4,11 @@ import { useQuery, useReactiveVar } from '@apollo/client';
 import { DataGrid, GridColDef } from '@material-ui/data-grid';
 import { startDateVar, endDateVar } from 'Context/Apollo';
 import { getAccountDetail } from 'API';
-import {GetAccountDetailQuery} from 'Types/graphql-gen'
+import { GetAccountDetailQuery } from 'Types/graphql-gen';
 import { Container } from './styles';
 import { displayAccountingValue } from 'Utilities';
 import Dialog from 'Components/Dialog';
-import ShowDetail from '../../Components/ShowDetail'
+import ShowDetail from '../../Components/ShowDetail';
 
 type Params = {
   accountId: string;
@@ -31,9 +31,7 @@ const columns: GridColDef[] = [
 
 const Account = () => {
   const { accountId } = useParams<Params>();
-  const [modalLookupId, setModalLookupId] = React.useState<null | string>(
-    null
-  );
+  const [modalLookupId, setModalLookupId] = React.useState<null | string>(null);
 
   const startDate = useReactiveVar(startDateVar);
   const endDate = useReactiveVar(endDateVar);
@@ -65,18 +63,16 @@ const Account = () => {
 
   const [account] = data.accounts;
 
-  if(!account) {
+  if (!account) {
     return <Redirect to='/home' />;
   }
 
-  if(!account.entries) {
-    return <div> There are no entries </div>
+  if (!account.entries) {
+    return <div> There are no entries </div>;
   }
 
-  console.log('*****account', account)
-
   const rows = account.entries.reduce((acc, entry) => {
-    if(!entry) {
+    if (!entry) {
       return acc;
     }
 
@@ -112,7 +108,7 @@ const Account = () => {
           autoHeight
           onRowClick={(e) => {
             console.log('***e', e);
-            setModalLookupId(e.id as string)
+            setModalLookupId(e.id as string);
           }}
           pageSize={5}
           rowsPerPageOptions={[5]}
@@ -124,7 +120,7 @@ const Account = () => {
         toggleModal={() => setModalLookupId(null)}
         title='ok'
       >
-        <ShowDetail cacheId={modalLookupId}/>
+        <ShowDetail cacheId={modalLookupId} />
       </Dialog>
     </>
   );
